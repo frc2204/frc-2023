@@ -44,6 +44,9 @@ import kotlin.math.IEEErem
 @OptIn(DelicateCoroutinesApi::class)
 object SwerveSubsystem : SubsystemBase() {
 
+    /**
+     * The front left module
+     */
     private val frontLeft = SwerveModule(
         FRONT_LEFT_DRIVE,
         FRONT_LEFT_DRIVE_INVERTED,
@@ -54,6 +57,9 @@ object SwerveSubsystem : SubsystemBase() {
         FRONT_LEFT_STEER_PID,
     )
 
+    /**
+     * The front right module
+     */
     private val frontRight = SwerveModule(
         FRONT_RIGHT_DRIVE,
         FRONT_RIGHT_DRIVE_INVERTED,
@@ -64,6 +70,9 @@ object SwerveSubsystem : SubsystemBase() {
         FRONT_RIGHT_STEER_PID,
     )
 
+    /**
+     * The back left module
+     */
     private val backLeft = SwerveModule(
         BACK_LEFT_DRIVE,
         BACK_LEFT_DRIVE_INVERTED,
@@ -74,6 +83,9 @@ object SwerveSubsystem : SubsystemBase() {
         BACK_LEFT_STEER_PID,
     )
 
+    /**
+     * The back right module
+     */
     private val backRight = SwerveModule(
         BACK_RIGHT_DRIVE,
         BACK_RIGHT_DRIVE_INVERTED,
@@ -84,6 +96,9 @@ object SwerveSubsystem : SubsystemBase() {
         BACK_RIGHT_STEER_PID,
     )
 
+    /**
+     *
+     */
     private val navX = AHRS(SPI.Port.kMXP)
 
     init {
@@ -110,13 +125,9 @@ object SwerveSubsystem : SubsystemBase() {
         backRight.stop()
     }
 
-    fun stop() {
-        frontLeft.stop()
-        frontRight.stop()
-        backLeft.stop()
-        backRight.stop()
-    }
-
+    /**
+     * Resets the navX
+     */
     fun resetHeading() = runOnce {
         navX.reset()
     }
