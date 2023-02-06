@@ -48,8 +48,8 @@ object Swerve {
     const val DEADBAND = true
     const val DEADBAND_THRESHOLD = 0.01
 
-    val FRAME_HEIGHT = Units.feetToMeters(2.0)
-    val FRAME_WIDTH = Units.feetToMeters(2.0)
+    private val FRAME_HEIGHT = Units.inchesToMeters(28.0)
+    private val FRAME_WIDTH = Units.feetToMeters(28.0)
 
     private val FRONT_LEFT_LOCATION = Translation2d( - FRAME_HEIGHT / 2, FRAME_WIDTH / 2)
     private val FRONT_RIGHT_LOCATION = Translation2d( FRAME_HEIGHT / 2, FRAME_WIDTH / 2)

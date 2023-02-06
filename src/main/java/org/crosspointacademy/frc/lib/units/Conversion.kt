@@ -1,6 +1,5 @@
 package org.crosspointacademy.frc.lib.units
 
-import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 
 /**

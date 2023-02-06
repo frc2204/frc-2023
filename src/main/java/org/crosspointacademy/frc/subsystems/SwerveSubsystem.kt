@@ -110,6 +110,13 @@ object SwerveSubsystem : SubsystemBase() {
         backRight.stop()
     }
 
+    fun stop() {
+        frontLeft.stop()
+        frontRight.stop()
+        backLeft.stop()
+        backRight.stop()
+    }
+
     fun resetHeading() = runOnce {
         navX.reset()
     }
