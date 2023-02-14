@@ -1,0 +1,26 @@
+{
+  "Results": {
+    "Classifier": [],
+    "Detector": [],
+    "Fiducial": [],
+    "Retro": [
+      {
+        "pts": [],
+        "t6c_ts": [],
+        "t6r_fs": [],
+        "t6r_ts": [],
+        "t6t_cs": [],
+        "t6t_rs": [],
+        "ta": 0.03,
+        "tx": -6.9,
+        "txp": 125.9,
+        "ty": 8.7,
+        "typ": 79.8
+      }
+    ],
+    "pID": 0,
+    "tl": 1.0,
+    "ts": 2.0,
+    "v": 1
+  }
+}

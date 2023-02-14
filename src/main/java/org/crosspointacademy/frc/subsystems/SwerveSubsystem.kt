@@ -1,8 +1,8 @@
 package org.crosspointacademy.frc.subsystems
 
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.kinematics.SwerveModuleState
-import edu.wpi.first.wpilibj.ADIS16470_IMU
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -37,7 +37,6 @@ import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_ENCODER
 import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_INVERTED
 import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_OFFSET
 import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_PID
-import org.crosspointacademy.frc.lib.PIDBuilder
 import org.crosspointacademy.frc.lib.SwerveModule
 import kotlin.math.IEEErem
 
@@ -109,7 +108,7 @@ object SwerveSubsystem : SubsystemBase() {
     }
 
     val heading get() = navX.angle.IEEErem(360.0)
-    val rotation2d get() = navX.rotation2d
+    val rotation2d: Rotation2d get() = navX.rotation2d
 
     fun setModuleStates(states: Array<SwerveModuleState>) {
         frontLeft.state = states[0]
