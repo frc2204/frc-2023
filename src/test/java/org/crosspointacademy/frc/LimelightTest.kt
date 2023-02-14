@@ -11,7 +11,7 @@ class LimelightTest {
     private val limelight = Limelight("Limelight-Test")
 
     private fun getJSON(fileName: String): String {
-        return File("src/test/resources/LimelightTest/$fileName.json").readText()
+        return File("./src/test/resources/LimelightTest/$fileName.json").readText()
     }
 
     @Test
