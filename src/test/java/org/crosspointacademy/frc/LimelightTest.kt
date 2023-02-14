@@ -4,6 +4,8 @@ import org.crosspointacademy.frc.lib.limelight.Limelight
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.nio.file.Paths
+import kotlin.io.path.readText
 import kotlin.time.Duration.Companion.milliseconds
 
 class LimelightTest {
@@ -11,7 +13,7 @@ class LimelightTest {
     private val limelight = Limelight("Limelight-Test")
 
     private fun getJSON(fileName: String): String {
-        return File("./src/test/resources/LimelightTest/$fileName.json").readText()
+        return Paths.get("src", "test", "resources", "limelightTest", "$fileName.json").toFile().readText()
     }
 
     @Test
