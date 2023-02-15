@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command
  * directly reference the (single instance of the) object.
  */
 object RobotContainer {
+
     init {
         configureBindings()
     }
