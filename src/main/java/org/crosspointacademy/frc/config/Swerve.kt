@@ -48,13 +48,20 @@ object Swerve {
     const val DEADBAND = true
     const val DEADBAND_THRESHOLD = 0.01
 
-    private val FRAME_HEIGHT = Units.inchesToMeters(28.0)
-    private val FRAME_WIDTH = Units.feetToMeters(28.0)
+    /**
+     * The track width is the distance between the left and right wheels on the same side of the robot.
+     */
+    private val TRACK_WIDTH = Units.inchesToMeters(23.25)
 
-    private val FRONT_LEFT_LOCATION = Translation2d( - FRAME_HEIGHT / 2, FRAME_WIDTH / 2)
-    private val FRONT_RIGHT_LOCATION = Translation2d( FRAME_HEIGHT / 2, FRAME_WIDTH / 2)
-    private val BACK_LEFT_LOCATION = Translation2d( - FRAME_HEIGHT / 2, - FRAME_WIDTH / 2)
-    private val BACK_RIGHT_LOCATION = Translation2d( FRAME_HEIGHT / 2, - FRAME_WIDTH / 2)
+    /**
+     * The wheelbase is the distance between the front and back wheels on the same side of the robot.
+     */
+    private val WHEEL_BASE = Units.feetToMeters(23.25)
+
+    private val FRONT_LEFT_LOCATION = Translation2d( WHEEL_BASE / 2, TRACK_WIDTH / 2)
+    private val FRONT_RIGHT_LOCATION = Translation2d( WHEEL_BASE / 2, - TRACK_WIDTH / 2)
+    private val BACK_LEFT_LOCATION = Translation2d( - WHEEL_BASE / 2,  TRACK_WIDTH / 2)
+    private val BACK_RIGHT_LOCATION = Translation2d( - WHEEL_BASE / 2, - TRACK_WIDTH / 2)
 
     val KINEMATICS = SwerveDriveKinematics(
         FRONT_LEFT_LOCATION,
