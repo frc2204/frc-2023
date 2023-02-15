@@ -2,7 +2,6 @@ package org.crosspointacademy.frc.lib.limelight.json
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Serializer
 
 /**
  * This class is used to deserialize the JSON dump from the Limelight.

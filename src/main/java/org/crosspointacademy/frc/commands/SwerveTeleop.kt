@@ -63,7 +63,12 @@ class SwerveTeleop(
         val thetaSlewRateLimited = thetaSlewRateLimiter.calculate(theta) * Swerve.MAX_OMEGA_PER_SECOND
 
         val chassisSpeeds = if (fieldOriented()) {
-            ChassisSpeeds.fromFieldRelativeSpeeds(xSlewRateLimited, ySlewRateLimited, thetaSlewRateLimited, SwerveSubsystem.rotation2d)
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                xSlewRateLimited,
+                ySlewRateLimited,
+                thetaSlewRateLimited,
+                SwerveSubsystem.rotation2d
+            )
         } else {
             ChassisSpeeds(xSlewRateLimited, ySlewRateLimited, thetaSlewRateLimited)
         }

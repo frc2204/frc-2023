@@ -3,9 +3,7 @@ package org.crosspointacademy.frc
 import org.crosspointacademy.frc.lib.limelight.Limelight
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import java.io.File
 import java.nio.file.Paths
-import kotlin.io.path.readText
 import kotlin.time.Duration.Companion.milliseconds
 
 class LimelightTest {
@@ -105,7 +103,6 @@ class LimelightTest {
 
         // Check retro results
         assertEquals(emptyList<Pair<Double, Double>>(), retro.points, "Points")
-        
 
 
     }

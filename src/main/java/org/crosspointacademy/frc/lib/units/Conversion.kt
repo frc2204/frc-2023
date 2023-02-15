@@ -12,4 +12,5 @@ fun Double.toRadians() = this * Math.PI / 180
  */
 fun Double.toRadians(type: CustomUnitTypes) = this * 2 * Math.PI / type.resolution
 
-fun Double.toRadiansPerSecond(type: CustomUnitTypes) = this.toRadians(type) / type.velocityPeriod.toDouble(DurationUnit.SECONDS)
+fun Double.toRadiansPerSecond(type: CustomUnitTypes) =
+    this.toRadians(type) / type.velocityPeriod.toDouble(DurationUnit.SECONDS)

@@ -58,10 +58,10 @@ object Swerve {
      */
     private val WHEEL_BASE = Units.feetToMeters(23.25)
 
-    private val FRONT_LEFT_LOCATION = Translation2d( WHEEL_BASE / 2, TRACK_WIDTH / 2)
-    private val FRONT_RIGHT_LOCATION = Translation2d( WHEEL_BASE / 2, - TRACK_WIDTH / 2)
-    private val BACK_LEFT_LOCATION = Translation2d( - WHEEL_BASE / 2,  TRACK_WIDTH / 2)
-    private val BACK_RIGHT_LOCATION = Translation2d( - WHEEL_BASE / 2, - TRACK_WIDTH / 2)
+    private val FRONT_LEFT_LOCATION = Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2)
+    private val FRONT_RIGHT_LOCATION = Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)
+    private val BACK_LEFT_LOCATION = Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)
+    private val BACK_RIGHT_LOCATION = Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)
 
     val KINEMATICS = SwerveDriveKinematics(
         FRONT_LEFT_LOCATION,
