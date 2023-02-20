@@ -1,6 +1,6 @@
 package org.crosspointacademy.frc
 
-import org.crosspointacademy.frc.lib.limelight.Limelight
+import org.crosspointacademy.lib.limelight.Limelight
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.nio.file.Paths
