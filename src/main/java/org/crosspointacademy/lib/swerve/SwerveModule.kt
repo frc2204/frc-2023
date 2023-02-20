@@ -2,14 +2,11 @@ package org.crosspointacademy.lib.swerve
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.DemandType
-import com.ctre.phoenix.motorcontrol.can.TalonFX
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX
-import com.ctre.phoenix.sensors.CANCoder
 import com.ctre.phoenix.sensors.WPI_CANCoder
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.kinematics.SwerveModulePosition
 import edu.wpi.first.math.kinematics.SwerveModuleState
-import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import org.crosspointacademy.frc.config.Swerve.DRIVE_FEED_FORWARD
 import org.crosspointacademy.frc.config.Swerve.DRIVE_INVERTED
@@ -65,10 +62,11 @@ class SwerveModule(val configuration: SwerveModuleConfiguration) {
         lastAngle = angle
     }
 
-    val state get() = SwerveModuleState(
-        falconToMPS(driveMotor.selectedSensorVelocity, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
-        angle
-    )
+    val state
+        get() = SwerveModuleState(
+            falconToMPS(driveMotor.selectedSensorVelocity, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
+            angle
+        )
 
     private fun setSpeed(state: SwerveModuleState, openLoop: Boolean) {
         if (openLoop) {
@@ -98,14 +96,18 @@ class SwerveModule(val configuration: SwerveModuleConfiguration) {
 
         SmartDashboard.putNumber("Swerve Desired: ${configuration.name} Speed", desired.speedMetersPerSecond)
         SmartDashboard.putNumber("Swerve Desired: ${configuration.name} Angle", desired.angle.degrees)
-        SmartDashboard.putNumber("Swerve Optimized Desired: ${configuration.name} Speed", optimizedState.speedMetersPerSecond)
+        SmartDashboard.putNumber(
+            "Swerve Optimized Desired: ${configuration.name} Speed",
+            optimizedState.speedMetersPerSecond
+        )
         SmartDashboard.putNumber("Swerve Optimized Desired: ${configuration.name} Angle", optimizedState.angle.degrees)
     }
 
-    val position get() = SwerveModulePosition(
-        falconToMPS(driveMotor.selectedSensorPosition, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
-        angle
-    )
+    val position
+        get() = SwerveModulePosition(
+            falconToMPS(driveMotor.selectedSensorPosition, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
+            angle
+        )
 
     private val angle get() = Rotation2d.fromDegrees(falconToDegrees(steerMotor.selectedSensorPosition, STEER_RATIO))
     val canCoder get() = Rotation2d.fromDegrees(absoluteEncoder.absolutePosition)

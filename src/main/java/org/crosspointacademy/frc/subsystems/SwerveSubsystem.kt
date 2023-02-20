@@ -4,18 +4,15 @@ import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.math.geometry.Pose2d
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Translation2d
-import edu.wpi.first.math.geometry.Twist2d
 import edu.wpi.first.math.kinematics.ChassisSpeeds
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry
-import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.SPI
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.smartdashboard.Field2d
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import org.crosspointacademy.frc.Robot
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
@@ -44,7 +41,7 @@ object SwerveSubsystem : SubsystemBase() {
         get() = modules.map { it.state }.toTypedArray()
         set(value) {
             SwerveDriveKinematics.desaturateWheelSpeeds(value, MAX_SPEED)
-            modules.forEachIndexed { index, module -> module.setDesiredState(value[index], false)}
+            modules.forEachIndexed { index, module -> module.setDesiredState(value[index], false) }
         }
     private val modulePositions get() = modules.map { it.position }.toTypedArray()
 
