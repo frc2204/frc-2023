@@ -14,13 +14,14 @@ object Swerve {
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 
-    val MAX_SPEED = Units.feetToMeters(12.0)
+    val MAX_SPEED = Units.feetToMeters(15.13)
+    val MAX_OMEGA = Rotation2d.fromRadians(10.0) // TODO requires testing
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
 
     // Drive Configuration
-    const val DRIVE_RATIO = 1.0 // TODO: Find the correct ratio
+    const val DRIVE_RATIO = 7.36 / 1
     const val DRIVE_INVERTED = false
     val DRIVE_NEUTRAL_MODE = NeutralMode.Brake
     val DRIVE_PID = PIDFBuilder(0.03, 0.0, 0.0, 0.0)
@@ -33,7 +34,7 @@ object Swerve {
     const val DRIVE_CLOSED_LOOP_RAMP = 0.0
 
     // Steer Configuration
-    const val STEER_RATIO = 1.0 // TODO: Find the correct ratio
+    const val STEER_RATIO = 15.43 / 1
     const val STEER_INVERTED = false
     val STEER_NEUTRAL_MODE = NeutralMode.Coast
     val STEER_PID = PIDFBuilder(0.0, 0.3, 0.0, 0.0)
@@ -67,7 +68,5 @@ object Swerve {
         BACK_RIGHT_LOCATION
     )
 
-    val MAX_VELOCITY = Units.feetToMeters(3.0) // TODO requires testing
-    val MAX_OMEGA = Rotation2d.fromRadians(10.0) // TODO requires testing
 
 }
