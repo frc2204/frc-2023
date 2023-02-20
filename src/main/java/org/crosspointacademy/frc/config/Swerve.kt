@@ -11,6 +11,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
 
+    const val DRIVE_POWER = 0.3
+
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 

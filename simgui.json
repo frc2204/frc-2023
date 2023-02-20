@@ -39,6 +39,7 @@
           "style": "Box/Image"
         },
         "image": "C:\\Users\\James\\IdeaProjects\\frc-2023\\2023-field.png",
+        "units": "meters",
         "window": {
           "visible": true
         }

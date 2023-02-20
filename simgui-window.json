@@ -10,6 +10,13 @@
       "ypos": "23"
     }
   },
+  "Table": {
+    "0x542B5671,2": {
+      "Column 0  Width": "300",
+      "Column 1  Width": "156",
+      "RefScale": "13"
+    }
+  },
   "Window": {
     "###/FMSInfo": {
       "Collapsed": "0",
@@ -33,8 +40,8 @@
     },
     "###NetworkTables": {
       "Collapsed": "0",
-      "Pos": "1103,82",
-      "Size": "488,650"
+      "Pos": "1157,26",
+      "Size": "497,650"
     },
     "###Other Devices": {
       "Collapsed": "0",

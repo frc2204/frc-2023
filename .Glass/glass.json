@@ -1,0 +1,25 @@
+{
+  "NetworkTables": {
+    "Transitory Values": {
+      "open": false
+    },
+    "retained": {
+      "CameraPublisher": {
+        "open": true
+      },
+      "SmartDashboard": {
+        "open": true
+      },
+      "limelight-three": {
+        "open": true
+      }
+    },
+    "types": {
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables Settings": {
+    "mode": "Client (NT4)",
+    "visible": false
+  }
+}
