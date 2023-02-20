@@ -1,6 +1,6 @@
 package org.crosspointacademy.frc.config
 
-import org.crosspointacademy.frc.lib.NetworkingModule
+import org.crosspointacademy.lib.NetworkingModule
 
 object Networking {
 

@@ -1,135 +1,95 @@
 package org.crosspointacademy.frc.subsystems
 
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.math.geometry.Pose2d
 import edu.wpi.first.math.geometry.Rotation2d
-import edu.wpi.first.math.kinematics.SwerveModuleState
+import edu.wpi.first.math.geometry.Translation2d
+import edu.wpi.first.math.geometry.Twist2d
+import edu.wpi.first.math.kinematics.ChassisSpeeds
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry
+import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.SPI
+import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.smartdashboard.Field2d
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_DRIVE
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_DRIVE_INVERTED
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_STEER
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_STEER_ENCODER
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_STEER_INVERTED
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_STEER_OFFSET
-import org.crosspointacademy.frc.config.Swerve.BACK_LEFT_STEER_PID
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_DRIVE
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_DRIVE_INVERTED
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_STEER
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_STEER_ENCODER
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_STEER_INVERTED
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_STEER_OFFSET
-import org.crosspointacademy.frc.config.Swerve.BACK_RIGHT_STEER_PID
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_DRIVE
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_DRIVE_INVERTED
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_STEER
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_STEER_ENCODER
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_STEER_INVERTED
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_STEER_OFFSET
-import org.crosspointacademy.frc.config.Swerve.FRONT_LEFT_STEER_PID
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_DRIVE
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_DRIVE_INVERTED
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_ENCODER
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_INVERTED
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_OFFSET
-import org.crosspointacademy.frc.config.Swerve.FRONT_RIGHT_STEER_PID
-import org.crosspointacademy.frc.lib.SwerveModule
-import kotlin.math.IEEErem
+import org.crosspointacademy.frc.Robot
+import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
+import org.crosspointacademy.frc.config.Swerve.KINEMATICS
+import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
+import org.crosspointacademy.lib.swerve.SwerveModule
+import org.crosspointacademy.lib.swerve.SwerveModuleConfiguration
 
-@OptIn(DelicateCoroutinesApi::class)
 object SwerveSubsystem : SubsystemBase() {
 
-    /**
-     * The front left module
-     */
-    private val frontLeft = SwerveModule(
-        FRONT_LEFT_DRIVE,
-        FRONT_LEFT_DRIVE_INVERTED,
-        FRONT_LEFT_STEER,
-        FRONT_LEFT_STEER_INVERTED,
-        FRONT_LEFT_STEER_ENCODER,
-        FRONT_LEFT_STEER_OFFSET,
-        FRONT_LEFT_STEER_PID,
-    )
-
-    /**
-     * The front right module
-     */
-    private val frontRight = SwerveModule(
-        FRONT_RIGHT_DRIVE,
-        FRONT_RIGHT_DRIVE_INVERTED,
-        FRONT_RIGHT_STEER,
-        FRONT_RIGHT_STEER_INVERTED,
-        FRONT_RIGHT_STEER_ENCODER,
-        FRONT_RIGHT_STEER_OFFSET,
-        FRONT_RIGHT_STEER_PID,
-    )
-
-    /**
-     * The back left module
-     */
-    private val backLeft = SwerveModule(
-        BACK_LEFT_DRIVE,
-        BACK_LEFT_DRIVE_INVERTED,
-        BACK_LEFT_STEER,
-        BACK_LEFT_STEER_INVERTED,
-        BACK_LEFT_STEER_ENCODER,
-        BACK_LEFT_STEER_OFFSET,
-        BACK_LEFT_STEER_PID,
-    )
-
-    /**
-     * The back right module
-     */
-    private val backRight = SwerveModule(
-        BACK_RIGHT_DRIVE,
-        BACK_RIGHT_DRIVE_INVERTED,
-        BACK_RIGHT_STEER,
-        BACK_RIGHT_STEER_INVERTED,
-        BACK_RIGHT_STEER_ENCODER,
-        BACK_RIGHT_STEER_OFFSET,
-        BACK_RIGHT_STEER_PID,
-    )
-
-    /**
-     *
-     */
     private val navX = AHRS(SPI.Port.kMXP)
+    private val modules = arrayOf(
+        SwerveModule(SwerveModuleConfiguration.FRONT_LEFT),
+        SwerveModule(SwerveModuleConfiguration.FRONT_RIGHT),
+        SwerveModule(SwerveModuleConfiguration.BACK_LEFT),
+        SwerveModule(SwerveModuleConfiguration.BACK_RIGHT)
+    )
+    private val field = Field2d()
+
+    private val navXModulo360 get() = navX.angle % 360
+    val yaw get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - navXModulo360 else navXModulo360)
+
+    private var actualOdometry: SwerveDriveOdometry
+
+    val pose: Pose2d get() = actualOdometry.poseMeters
+
+    var moduleStates
+        get() = modules.map { it.state }.toTypedArray()
+        set(value) {
+            SwerveDriveKinematics.desaturateWheelSpeeds(value, MAX_SPEED)
+            modules.forEachIndexed { index, module -> module.setDesiredState(value[index], false)}
+        }
+    private val modulePositions get() = modules.map { it.position }.toTypedArray()
 
     init {
-        GlobalScope.launch {
-            delay(1000)
-            navX.reset()
+
+        // Avoids a bug with inverted motors
+        Timer.delay(1.0)
+        resetModulesToAbsolute()
+
+        actualOdometry = SwerveDriveOdometry(KINEMATICS, yaw, modulePositions)
+        SmartDashboard.putData("Field", field)
+    }
+
+    fun drive(translation: Translation2d, rotation: Double, fieldOriented: Boolean, openLoop: Boolean) {
+
+        val moduleStates = KINEMATICS.toSwerveModuleStates(
+            if (fieldOriented) ChassisSpeeds.fromFieldRelativeSpeeds(translation.x, translation.y, rotation, yaw)
+            else ChassisSpeeds(translation.x, translation.y, rotation)
+        )
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, MAX_SPEED)
+        modules.forEachIndexed { index, module -> module.setDesiredState(moduleStates[index], openLoop) }
+    }
+
+    fun zeroGyro(): CommandBase = runOnce {
+        navX.zeroYaw()
+    }
+
+    fun resetOdometry() {
+        actualOdometry.resetPosition(yaw, modulePositions, pose)
+    }
+
+    private fun resetModulesToAbsolute() {
+        modules.forEach { it.resetToAbsolutePosition() }
+    }
+
+    override fun periodic() {
+        actualOdometry.update(yaw, modulePositions)
+        field.robotPose = pose
+
+        modules.forEach {
+            SmartDashboard.putNumber("${it.configuration.name} CANCoder", it.canCoder.degrees)
+            SmartDashboard.putNumber("${it.configuration.name} Integrated", it.position.angle.degrees)
+            SmartDashboard.putNumber("${it.configuration.name} Velocity", it.state.speedMetersPerSecond)
         }
     }
-
-    val heading get() = navX.angle.IEEErem(360.0)
-    val rotation2d: Rotation2d get() = navX.rotation2d
-
-    fun setModuleStates(states: Array<SwerveModuleState>) {
-        frontLeft.state = states[0]
-        frontRight.state = states[1]
-        backLeft.state = states[2]
-        backRight.state = states[3]
-    }
-
-    fun stop() {
-        frontLeft.stop()
-        frontRight.stop()
-        backLeft.stop()
-        backRight.stop()
-    }
-
-    /**
-     * Resets the navX
-     */
-    fun resetHeading() = runOnce {
-        navX.reset()
-    }
-
 
 }

@@ -23,9 +23,7 @@ object Robot : TimedRobot() {
         // button bindings, and put our autonomous chooser on the dashboard.
         RobotContainer
 
-
     }
-
 
     override fun robotPeriodic() {
         CommandScheduler.getInstance().run()

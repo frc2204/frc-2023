@@ -1,6 +1,10 @@
 package org.crosspointacademy.frc
 
+import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.button.Trigger
+import org.crosspointacademy.frc.commands.SwerveTeleop
+import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -15,13 +19,23 @@ import edu.wpi.first.wpilibj2.command.Command
  */
 object RobotContainer {
 
+    private val xboxController = XboxController(0)
+
     init {
+
         configureBindings()
+
+        SwerveSubsystem.defaultCommand = SwerveTeleop(
+            { xboxController.leftY },
+            { xboxController.leftX },
+            { xboxController.rightX },
+            { xboxController.bButtonPressed }
+        )
     }
 
     /** Use this method to define your `trigger->command` mappings. */
     private fun configureBindings() {
-
+        Trigger { xboxController.aButtonPressed }.onTrue(SwerveSubsystem.zeroGyro())
     }
 
     fun getAutonomousCommand(): Command? {
