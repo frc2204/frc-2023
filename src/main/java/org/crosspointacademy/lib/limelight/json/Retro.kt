@@ -1,50 +1,37 @@
-package org.crosspointacademy.frc.lib.limelight.json
+package org.crosspointacademy.lib.limelight.json
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Fiducial(
+data class Retro(
     /**
-     * Fiducial tag ID
-     */
-    @SerialName("fID") val id: Int,
-
-    /**
-     * Fiducial Family (16H5C, 25H9C, 36H11C, etc)
-     */
-    @SerialName("fam") val family: String,
-
-    /**
-     * Return individual corner points. Must be enabled.
+     * Individual corner points as an array of {x,y} in pixels. Center-zero, positive right and down. Must be enabled.
      */
     @SerialName("pts") val points: List<Pair<Double, Double>>,
 
-    @Deprecated("Not implemented in Limelight")
-    val skew: List<String> = listOf(),
-
     /**
-     * Camera Pose in target space as computed by this fiducial (x,y,z,rx,ry,rz)
+     * Camera Pose in target space as computed by SolvePnP (x,y,z,rx,ry,rz)
      */
     @SerialName("t6c_ts") val cameraPoseTargetSpace: List<Double>,
 
     /**
-     * Robot Pose in field space as computed by this fiducial (x,y,z,rx,ry,rz)
+     * Robot Pose in field space as computed by SolvePnP (x,y,z,rx,ry,rz)
      */
     @SerialName("t6r_fs") val robotPoseFieldSpace: List<Double>,
 
     /**
-     * Robot Pose in target space as computed by this fiducial (x,y,z,rx,ry,rz)
+     * Robot Pose in target space as computed by SolvePnP (x,y,z,rx,ry,rz)
      */
     @SerialName("t6r_ts") val robotPoseTargetSpace: List<Double>,
 
     /**
-     * Target Pose in camera space as computed by this fiducial (x,y,z,rx,ry,rz)
+     * Target Pose in camera space as computed by SolvePnP (x,y,z,rx,ry,rz)
      */
     @SerialName("t6t_cs") val targetPoseCameraSpace: List<Double>,
 
     /**
-     * Target Pose in robot space as computed by this fiducial (x,y,z,rx,ry,rz)
+     * Target Pose in robot space as computed by SolvePnP (x,y,z,rx,ry,rz)
      */
     @SerialName("t6t_rs") val targetPoseRobotSpace: List<Double>,
 

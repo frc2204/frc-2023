@@ -1,4 +1,4 @@
-package org.crosspointacademy.frc.lib.limelight.json
+package org.crosspointacademy.lib.limelight.json
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

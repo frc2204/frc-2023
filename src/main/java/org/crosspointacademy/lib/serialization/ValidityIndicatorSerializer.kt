@@ -1,4 +1,4 @@
-package org.crosspointacademy.frc.lib.serialization
+package org.crosspointacademy.lib.serialization
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

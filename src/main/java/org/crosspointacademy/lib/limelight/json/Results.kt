@@ -1,9 +1,9 @@
-package org.crosspointacademy.frc.lib.limelight.json
+package org.crosspointacademy.lib.limelight.json
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import org.crosspointacademy.frc.lib.serialization.DoubleMillisecondSeserializer
-import org.crosspointacademy.frc.lib.serialization.ValidityIndicatorSerializer
+import org.crosspointacademy.lib.serialization.DoubleMillisecondSerializer
+import org.crosspointacademy.lib.serialization.ValidityIndicatorSerializer
 import kotlin.time.Duration
 
 @Serializable
@@ -19,14 +19,14 @@ data class Results(
      */
     val pipelineId: Int,
 
-    @Serializable(with = DoubleMillisecondSeserializer::class)
+    @Serializable(with = DoubleMillisecondSerializer::class)
     @SerialName("tl")
     /**
      * Targeting latency
      */
     val latency: Duration,
 
-    @Serializable(with = DoubleMillisecondSeserializer::class)
+    @Serializable(with = DoubleMillisecondSerializer::class)
     @SerialName("ts")
     /**
      * Time since boot

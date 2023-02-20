@@ -1,10 +1,10 @@
-package org.crosspointacademy.frc.lib.limelight
+package org.crosspointacademy.lib.limelight
 
 import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.networktables.NetworkTableInstance
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import org.crosspointacademy.frc.lib.limelight.json.JsonDump
+import org.crosspointacademy.lib.limelight.json.JsonDump
 
 class Limelight(private val hostname: String) {
 

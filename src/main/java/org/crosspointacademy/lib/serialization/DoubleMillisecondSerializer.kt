@@ -1,4 +1,4 @@
-package org.crosspointacademy.frc.lib.serialization
+package org.crosspointacademy.lib.serialization
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -9,7 +9,7 @@ import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-object DoubleMillisecondSeserializer : KSerializer<Duration> {
+object DoubleMillisecondSerializer : KSerializer<Duration> {
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("ms", PrimitiveKind.DOUBLE)
 

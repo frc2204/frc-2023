@@ -1,4 +1,4 @@
-package org.crosspointacademy.frc.lib
+package org.crosspointacademy.lib
 
 import edu.wpi.first.net.PortForwarder
 
