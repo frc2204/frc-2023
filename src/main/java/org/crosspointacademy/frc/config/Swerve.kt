@@ -11,13 +11,13 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
 
-    const val DRIVE_POWER = 0.3
+    const val DRIVE_POWER = 0.4
 
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 
     val MAX_SPEED = Units.feetToMeters(15.13)
-    val MAX_OMEGA = Rotation2d.fromRadians(10.0) // TODO requires testing
+    val MAX_OMEGA: Rotation2d = Rotation2d.fromDegrees(35.0) // TODO requires testing
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
@@ -26,7 +26,7 @@ object Swerve {
     const val DRIVE_RATIO = 7.36 / 1
     const val DRIVE_INVERTED = false
     val DRIVE_NEUTRAL_MODE = NeutralMode.Brake
-    val DRIVE_PID = PIDFBuilder(0.03, 0.0, 0.0, 0.0)
+    val DRIVE_PID = PIDFBuilder(0.08, 0.0, 0.0, 0.0)
     val DRIVE_FEED_FORWARD = MotorFeedForwardBuilder(0.0, 0.0, 0.0)
     const val DRIVE_CURRENT_LIMIT_ENABLED = true
     const val DRIVE_CURRENT_LIMIT = 35.0
@@ -37,9 +37,9 @@ object Swerve {
 
     // Steer Configuration
     const val STEER_RATIO = 15.43 / 1
-    const val STEER_INVERTED = false
+    const val STEER_INVERTED = true
     val STEER_NEUTRAL_MODE = NeutralMode.Coast
-    val STEER_PID = PIDFBuilder(0.0, 0.3, 0.0, 0.0)
+    val STEER_PID = PIDFBuilder(0.15, 0.0, 0.0, 0.0)
     const val STEER_CURRENT_LIMIT_ENABLED = true
     const val STEER_CURRENT_LIMIT = 25.0
     const val STEER_CURRENT_PEAK_LIMIT = 40.0
@@ -56,7 +56,7 @@ object Swerve {
     /**
      * The wheelbase is the distance between the front and back wheels on the same side of the robot.
      */
-    private val WHEEL_BASE = Units.feetToMeters(23.25)
+    private val WHEEL_BASE = Units.inchesToMeters(23.25)
 
     private val FRONT_LEFT_LOCATION = Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2)
     private val FRONT_RIGHT_LOCATION = Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)
@@ -69,6 +69,5 @@ object Swerve {
         BACK_LEFT_LOCATION,
         BACK_RIGHT_LOCATION
     )
-
 
 }
