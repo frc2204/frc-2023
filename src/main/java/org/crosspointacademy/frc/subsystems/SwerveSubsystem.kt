@@ -1,13 +1,12 @@
 package org.crosspointacademy.frc.subsystems
 
-import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.math.geometry.Pose2d
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Translation2d
 import edu.wpi.first.math.kinematics.ChassisSpeeds
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry
-import edu.wpi.first.wpilibj.SPI
+import edu.wpi.first.wpilibj.ADIS16470_IMU
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.smartdashboard.Field2d
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -17,21 +16,21 @@ import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
 import org.crosspointacademy.lib.swerve.SwerveModule
-import org.crosspointacademy.lib.swerve.SwerveModuleConfiguration
+import org.crosspointacademy.frc.config.SwerveModuleConfigurations
 
 object SwerveSubsystem : SubsystemBase() {
 
-    private val navX = AHRS(SPI.Port.kMXP)
+    private val adis16470Imu = ADIS16470_IMU()
     private val modules = arrayOf(
-        SwerveModule(SwerveModuleConfiguration.FRONT_LEFT),
-        SwerveModule(SwerveModuleConfiguration.FRONT_RIGHT),
-        SwerveModule(SwerveModuleConfiguration.BACK_LEFT),
-        SwerveModule(SwerveModuleConfiguration.BACK_RIGHT)
+        SwerveModule(SwerveModuleConfigurations.FRONT_LEFT),
+        SwerveModule(SwerveModuleConfigurations.FRONT_RIGHT),
+        SwerveModule(SwerveModuleConfigurations.BACK_LEFT),
+        SwerveModule(SwerveModuleConfigurations.BACK_RIGHT)
     )
     private val field = Field2d()
 
-    private val navXModulo360 get() = navX.angle % 360
-    val yaw get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - navXModulo360 else navXModulo360)
+    private val gyroAngle get() = adis16470Imu.angle % 360
+    val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle)
 
     private var actualOdometry: SwerveDriveOdometry
 
@@ -67,7 +66,7 @@ object SwerveSubsystem : SubsystemBase() {
     }
 
     fun zeroGyro(): CommandBase = runOnce {
-        navX.zeroYaw()
+        adis16470Imu.reset()
     }
 
     fun resetOdometry() {
@@ -81,6 +80,9 @@ object SwerveSubsystem : SubsystemBase() {
     override fun periodic() {
         actualOdometry.update(yaw, modulePositions)
         field.robotPose = pose
+
+        SmartDashboard.putBoolean("Gyro Connected", adis16470Imu.isConnected)
+        SmartDashboard.putNumber("Gyro", gyroAngle)
 
         modules.forEach {
             SmartDashboard.putNumber("${it.configuration.name} CANCoder", it.canCoder.degrees)
