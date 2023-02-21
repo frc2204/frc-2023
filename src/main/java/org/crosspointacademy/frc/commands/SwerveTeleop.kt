@@ -12,7 +12,7 @@ class SwerveTeleop(
     private val translation: () -> Double,
     private val strafe: () -> Double,
     private val rotation: () -> Double,
-    private val fieldOriented: () -> Boolean,
+    private val robotCentric: () -> Boolean,
 ) : CommandBase() {
 
     init {
@@ -27,7 +27,7 @@ class SwerveTeleop(
         SwerveSubsystem.drive(
             Translation2d(translationValue, strafeValue).times(MAX_SPEED),
             rotationValue * MAX_OMEGA.radians,
-            fieldOriented(),
+            !robotCentric(),
             true
         )
     }
