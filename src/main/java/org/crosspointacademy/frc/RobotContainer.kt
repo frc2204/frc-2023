@@ -28,7 +28,7 @@ object RobotContainer {
 
         SwerveSubsystem.defaultCommand = SwerveTeleop(
             { xboxController.leftY * DRIVE_POWER },
-            { xboxController.leftX * DRIVE_POWER},
+            { xboxController.leftX * DRIVE_POWER },
             { xboxController.rightX * DRIVE_POWER },
             { xboxController.bButtonPressed }
         )

@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
-import org.crosspointacademy.lib.swerve.SwerveModule
 import org.crosspointacademy.frc.config.SwerveModuleConfigurations
+import org.crosspointacademy.lib.swerve.SwerveModule
 
 object SwerveSubsystem : SubsystemBase() {
 
