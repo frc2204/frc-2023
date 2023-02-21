@@ -1,5 +1,6 @@
 package org.crosspointacademy.frc
 
+import edu.wpi.first.wpilibj.RobotBase
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
@@ -15,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
  * object or package, it will get changed everywhere.)
  */
 object Robot : TimedRobot() {
+
+    val real = RobotBase.isReal()
 
     private var autonomousCommand: Command? = null
 
