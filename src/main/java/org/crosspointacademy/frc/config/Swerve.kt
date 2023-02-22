@@ -11,13 +11,13 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
 
-    const val DRIVE_POWER = 0.4
+    const val DRIVE_POWER = 0.3
 
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 
     val MAX_SPEED = Units.feetToMeters(15.13)
-    val MAX_OMEGA: Rotation2d = Rotation2d.fromDegrees(35.0) // TODO requires testing
+    val MAX_OMEGA: Rotation2d = Rotation2d.fromDegrees(360.0)// TODO requires testing
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
