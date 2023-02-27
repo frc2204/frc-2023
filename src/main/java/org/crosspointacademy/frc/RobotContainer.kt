@@ -1,9 +1,15 @@
 package org.crosspointacademy.frc
 
+import com.pathplanner.lib.PathConstraints
+import com.pathplanner.lib.PathPlanner
+import com.pathplanner.lib.server.PathPlannerServer
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.button.Trigger
+import org.crosspointacademy.frc.commands.Autos
 import org.crosspointacademy.frc.commands.SwerveTeleop
+import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
+import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER
 import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
@@ -25,6 +31,7 @@ object RobotContainer {
     init {
 
         configureBindings()
+        Autos // Reference the Autos object so that it is initialized, placing the chooser on the dashboard
 
         SwerveSubsystem.defaultCommand = SwerveTeleop(
             { xboxController.leftY * DRIVE_POWER },
@@ -32,6 +39,8 @@ object RobotContainer {
             { xboxController.rightX * DRIVE_POWER },
             { xboxController.bButtonPressed }
         )
+
+        PathPlannerServer.startServer(5811)
     }
 
     /** Use this method to define your `trigger->command` mappings. */
@@ -40,8 +49,12 @@ object RobotContainer {
     }
 
     fun getAutonomousCommand(): Command? {
-        // TODO: Implement properly
-        return null
+        return Autos.autoBuilder.fullAuto(
+            PathPlanner.loadPathGroup(
+                Autos.autoModeChooser.selected.pathName,
+                PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
+            )
+        )
     }
 
 }

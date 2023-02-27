@@ -19,6 +19,12 @@ object Swerve {
     val MAX_SPEED = Units.feetToMeters(15.13)
     val MAX_OMEGA: Rotation2d = Rotation2d.fromDegrees(360.0)// TODO requires testing
 
+    // Auto configuration
+    val AUTO_TRANSLATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
+    val AUTO_ROTATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
+    val AUTO_MAX_VELOCITY = Units.feetToMeters(4.0)
+    val AUTO_MAX_ACCELERATION = Units.feetToMeters(3.0)
+
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
 

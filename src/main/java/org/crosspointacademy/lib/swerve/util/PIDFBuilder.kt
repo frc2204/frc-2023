@@ -1,6 +1,6 @@
 package org.crosspointacademy.lib.swerve.util
 
-import edu.wpi.first.math.controller.PIDController
+import com.pathplanner.lib.auto.PIDConstants
 
 data class PIDFBuilder(
     val proportional: Double,
@@ -9,8 +9,6 @@ data class PIDFBuilder(
     val filtered: Double? = null,
 ) {
 
-    fun build(): PIDController {
-        return PIDController(proportional, integral, derivative)
-    }
+    fun toPIDConstants() = PIDConstants(proportional, integral, derivative)
 
 }
