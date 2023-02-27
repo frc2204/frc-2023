@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.kinematics.SwerveModulePosition
 import edu.wpi.first.math.kinematics.SwerveModuleState
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import org.crosspointacademy.frc.Robot
 import org.crosspointacademy.frc.config.Swerve.DRIVE_FEED_FORWARD
 import org.crosspointacademy.frc.config.Swerve.DRIVE_INVERTED
 import org.crosspointacademy.frc.config.Swerve.DRIVE_NEUTRAL_MODE
@@ -22,11 +23,12 @@ import org.crosspointacademy.lib.swerve.util.CTREModuleState.optimize
 import org.crosspointacademy.lib.swerve.util.Conversions.degreesToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToDegrees
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToMPS
+import org.crosspointacademy.lib.swerve.util.Conversions.metersToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.mpsToFalcon
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 class SwerveModule(val configuration: SwerveModuleConfigurations) {
-
 
     private val absoluteEncoder = WPI_CANCoder(configuration.steerEncoderCANId)
     private val driveMotor = WPI_TalonFX(configuration.driveMotorCANId)
@@ -63,6 +65,7 @@ class SwerveModule(val configuration: SwerveModuleConfigurations) {
         lastAngle = angle
     }
 
+
     val state
         get() = SwerveModuleState(
             falconToMPS(driveMotor.selectedSensorVelocity, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
@@ -73,6 +76,8 @@ class SwerveModule(val configuration: SwerveModuleConfigurations) {
         if (openLoop) {
             val percentOutput = state.speedMetersPerSecond / MAX_SPEED
             driveMotor.set(ControlMode.PercentOutput, percentOutput)
+
+
         } else {
             val velocity = mpsToFalcon(state.speedMetersPerSecond, WHEEL_CIRCUMFERENCE, DRIVE_RATIO)
             driveMotor.set(
@@ -82,12 +87,21 @@ class SwerveModule(val configuration: SwerveModuleConfigurations) {
                 driveFeedForward.calculate(state.speedMetersPerSecond)
             )
         }
+
+        if (Robot.simulation) {
+            driveMotor.selectedSensorPosition += metersToFalcon(state.speedMetersPerSecond * 0.02, WHEEL_CIRCUMFERENCE, DRIVE_RATIO).roundToInt()
+        }
     }
 
     private fun setAngle(state: SwerveModuleState) {
         val angle = if (abs(state.speedMetersPerSecond) <= MAX_SPEED * 0.01) lastAngle else state.angle
-        steerMotor.set(ControlMode.Position, degreesToFalcon(angle.degrees, STEER_RATIO))
+        val position = degreesToFalcon(angle.degrees, STEER_RATIO)
+        steerMotor.set(ControlMode.Position, position)
         lastAngle = angle
+
+        if (Robot.simulation) {
+            steerMotor.selectedSensorPosition = position
+        }
     }
 
     fun setDesiredState(desired: SwerveModuleState, openLoop: Boolean) {
@@ -110,8 +124,11 @@ class SwerveModule(val configuration: SwerveModuleConfigurations) {
             angle
         )
 
-    private val angle get() = Rotation2d.fromDegrees(falconToDegrees(steerMotor.selectedSensorPosition, STEER_RATIO))
-    val canCoder get() = Rotation2d.fromDegrees(absoluteEncoder.absolutePosition)
+    private val angle: Rotation2d get() = Rotation2d.fromDegrees(
+        falconToDegrees(steerMotor.selectedSensorPosition, STEER_RATIO)
+    )
+
+    val canCoder: Rotation2d get() = Rotation2d.fromDegrees(absoluteEncoder.absolutePosition)
 
     fun resetToAbsolutePosition() {
         val position = degreesToFalcon(canCoder.degrees - steerEncoderOffset.degrees, STEER_RATIO)

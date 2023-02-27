@@ -8,10 +8,12 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry
 import edu.wpi.first.wpilibj.ADIS16470_IMU
 import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim
 import edu.wpi.first.wpilibj.smartdashboard.Field2d
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
+import org.crosspointacademy.frc.Robot
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
@@ -21,6 +23,7 @@ import org.crosspointacademy.lib.swerve.SwerveModule
 object SwerveSubsystem : SubsystemBase() {
 
     private val adis16470Imu = ADIS16470_IMU()
+    private val adis16470ImuSim = ADIS16470_IMUSim(adis16470Imu)
     private val modules = arrayOf(
         SwerveModule(SwerveModuleConfigurations.FRONT_LEFT),
         SwerveModule(SwerveModuleConfigurations.FRONT_RIGHT),
@@ -30,7 +33,7 @@ object SwerveSubsystem : SubsystemBase() {
     private val field = Field2d()
 
     private val gyroAngle get() = adis16470Imu.angle % 360
-    val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle)
+    private val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle)
 
     private var actualOdometry: SwerveDriveOdometry
 
@@ -45,7 +48,6 @@ object SwerveSubsystem : SubsystemBase() {
     private val modulePositions get() = modules.map { it.position }.toTypedArray()
 
     init {
-
         // Avoids a bug with inverted motors
         Timer.delay(1.0)
         resetModulesToAbsolute()
@@ -56,20 +58,25 @@ object SwerveSubsystem : SubsystemBase() {
 
     fun drive(translation: Translation2d, rotation: Double, fieldOriented: Boolean, openLoop: Boolean) {
 
-        val moduleStates = KINEMATICS.toSwerveModuleStates(
-            if (fieldOriented) ChassisSpeeds.fromFieldRelativeSpeeds(translation.x, translation.y, rotation, yaw)
-            else ChassisSpeeds(translation.x, translation.y, rotation)
-        )
+        val chassisSpeeds = if (fieldOriented) {
+            ChassisSpeeds.fromFieldRelativeSpeeds(translation.x, translation.y, rotation, yaw)
+        } else ChassisSpeeds(translation.x, translation.y, rotation)
+
+        val moduleStates = KINEMATICS.toSwerveModuleStates(chassisSpeeds)
 
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, MAX_SPEED)
         modules.forEachIndexed { index, module -> module.setDesiredState(moduleStates[index], openLoop) }
+
+        if (Robot.simulation) {
+            adis16470ImuSim.setGyroAngleZ(gyroAngle + chassisSpeeds.omegaRadiansPerSecond * 0.02 * 180 / Math.PI)
+        }
     }
 
     fun zeroGyro(): CommandBase = runOnce {
         adis16470Imu.reset()
     }
 
-    fun resetOdometry() {
+    fun resetOdometry(pose: Pose2d) {
         actualOdometry.resetPosition(yaw, modulePositions, pose)
     }
 

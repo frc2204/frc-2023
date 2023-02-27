@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
 object Robot : TimedRobot() {
 
     val real = RobotBase.isReal()
+    val simulation = !real
 
     private var autonomousCommand: Command? = null
 
