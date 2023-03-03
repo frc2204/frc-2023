@@ -779,7 +779,7 @@ public class LimelightHelpers {
     }
 
     public static double getTotalLatency(String limelightName) {
-        return getLatencyCapture(limelightName) + getLatencyPipeline(limelightName);
+        return getLatencyCapture(limelightName) / 1000 + getLatencyPipeline(limelightName) / 1000;
     }
 
     public static double getVisionTimestamp(String limeLightName) {
