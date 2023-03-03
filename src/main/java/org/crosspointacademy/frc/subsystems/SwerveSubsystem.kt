@@ -1,11 +1,11 @@
 package org.crosspointacademy.frc.subsystems
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator
 import edu.wpi.first.math.geometry.Pose2d
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Translation2d
 import edu.wpi.first.math.kinematics.ChassisSpeeds
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry
 import edu.wpi.first.wpilibj.ADIS16470_IMU
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.simulation.ADIS16470_IMUSim
@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.crosspointacademy.frc.Robot
+import org.crosspointacademy.frc.config.Limelight.FIXED_LIMELIGHT_NAME
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
 import org.crosspointacademy.frc.config.SwerveModuleConfigurations
+import org.crosspointacademy.lib.limelight.LimelightHelpers
 import org.crosspointacademy.lib.swerve.SwerveModule
 
 object SwerveSubsystem : SubsystemBase() {
@@ -36,9 +38,9 @@ object SwerveSubsystem : SubsystemBase() {
     private val gyroAngle get() = adis16470Imu.angle % 360
     private val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle)
 
-    private var actualOdometry: SwerveDriveOdometry
+    private var poseEstimator: SwerveDrivePoseEstimator
 
-    val pose: Pose2d get() = actualOdometry.poseMeters
+    val pose: Pose2d get() = poseEstimator.estimatedPosition
 
     var moduleStates
         get() = modules.map { it.state }.toTypedArray()
@@ -53,7 +55,7 @@ object SwerveSubsystem : SubsystemBase() {
         Timer.delay(1.0)
         resetModulesToAbsolute()
 
-        actualOdometry = SwerveDriveOdometry(KINEMATICS, yaw, modulePositions)
+        poseEstimator = SwerveDrivePoseEstimator(KINEMATICS, yaw, modulePositions, Pose2d(0.0, 0.0, Rotation2d()))
         SmartDashboard.putData("Field", field)
     }
 
@@ -72,13 +74,13 @@ object SwerveSubsystem : SubsystemBase() {
             adis16470ImuSim.setGyroAngleZ(gyroAngle + chassisSpeeds.omegaRadiansPerSecond * 0.02 * 180 / Math.PI)
         }
     }
-
+    
     fun zeroGyro(): CommandBase = runOnce {
         adis16470Imu.reset()
     }
 
     fun resetOdometry(pose: Pose2d) {
-        actualOdometry.resetPosition(yaw, modulePositions, pose)
+        poseEstimator.resetPosition(yaw, modulePositions, pose)
     }
 
     private fun resetModulesToAbsolute() {
@@ -86,7 +88,12 @@ object SwerveSubsystem : SubsystemBase() {
     }
 
     override fun periodic() {
-        actualOdometry.update(yaw, modulePositions)
+        poseEstimator.update(yaw, modulePositions)
+        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
+            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
+            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
+        )
+
         field.robotPose = pose
 
         SmartDashboard.putBoolean("Gyro Connected", adis16470Imu.isConnected)
