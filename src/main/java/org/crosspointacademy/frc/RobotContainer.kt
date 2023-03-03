@@ -11,6 +11,7 @@ import org.crosspointacademy.frc.commands.SwerveTeleop
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER
+import org.crosspointacademy.frc.config.Swerve.ROTATIONAL_POWER
 import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
 /**
@@ -36,7 +37,7 @@ object RobotContainer {
         SwerveSubsystem.defaultCommand = SwerveTeleop(
             { xboxController.leftY * DRIVE_POWER },
             { xboxController.leftX * DRIVE_POWER },
-            { xboxController.rightX * DRIVE_POWER },
+            { xboxController.rightX * ROTATIONAL_POWER },
             { xboxController.bButtonPressed }
         )
 
