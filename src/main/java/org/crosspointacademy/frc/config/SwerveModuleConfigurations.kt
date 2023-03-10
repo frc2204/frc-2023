@@ -1,18 +1,20 @@
 package org.crosspointacademy.frc.config
 
 import edu.wpi.first.math.geometry.Rotation2d
-import org.crosspointacademy.frc.Robot
+import org.crosspointacademy.lib.degrees
+import org.crosspointacademy.lib.swerve.SwerveModuleConfiguration
 
 enum class SwerveModuleConfigurations(
-    val driveMotorCANId: Int,
-    val steerMotorCANId: Int,
-    val steerEncoderCANId: Int,
-    val steerEncoderOffset: Rotation2d,
-) {
+    override val driveMotorCANId: Int,
+    override val steerMotorCANId: Int,
+    override val steerEncoderCANId: Int,
+    override val steerEncoderOffset: Rotation2d,
+    override val simulationEncoderOffset: Rotation2d
+) : SwerveModuleConfiguration {
 
-    FRONT_LEFT(1, 2, 3, Rotation2d.fromDegrees(if (Robot.real) 307.8 else 0.0)),
-    FRONT_RIGHT(4, 5, 6, Rotation2d.fromDegrees(if (Robot.real) 350.59 else 0.0)),
-    BACK_LEFT(7, 8, 9, Rotation2d.fromDegrees(if (Robot.real) 25.04 else 0.0)),
-    BACK_RIGHT(10, 11, 12, Rotation2d.fromDegrees(if (Robot.real) 323.34 else 0.0)),
+    FRONT_LEFT(1, 2, 3, 307.8.degrees ,0.0.degrees),
+    FRONT_RIGHT(4, 5, 6, 350.59.degrees, 0.0.degrees),
+    BACK_LEFT(7, 8, 9, 25.04.degrees, 0.0.degrees),
+    BACK_RIGHT(10, 11, 12, 323.34.degrees, 0.0.degrees),
 
 }

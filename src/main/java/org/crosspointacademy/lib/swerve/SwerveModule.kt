@@ -18,7 +18,6 @@ import org.crosspointacademy.frc.config.Swerve.STEER_INVERTED
 import org.crosspointacademy.frc.config.Swerve.STEER_NEUTRAL_MODE
 import org.crosspointacademy.frc.config.Swerve.STEER_RATIO
 import org.crosspointacademy.frc.config.Swerve.WHEEL_CIRCUMFERENCE
-import org.crosspointacademy.frc.config.SwerveModuleConfigurations
 import org.crosspointacademy.lib.swerve.util.CTREModuleState.optimize
 import org.crosspointacademy.lib.swerve.util.Conversions.degreesToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToDegrees
@@ -28,7 +27,7 @@ import org.crosspointacademy.lib.swerve.util.Conversions.mpsToFalcon
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class SwerveModule(val cfg: SwerveModuleConfigurations) {
+class SwerveModule(val cfg: SwerveModuleConfiguration) {
 
     private val absoluteEncoder = WPI_CANCoder(cfg.steerEncoderCANId)
     private val driveMotor = WPI_TalonFX(cfg.driveMotorCANId)
