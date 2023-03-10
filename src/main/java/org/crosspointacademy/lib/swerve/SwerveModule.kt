@@ -28,15 +28,15 @@ import org.crosspointacademy.lib.swerve.util.Conversions.mpsToFalcon
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class SwerveModule(val configuration: SwerveModuleConfigurations) {
+class SwerveModule(val cfg: SwerveModuleConfigurations) {
 
-    private val absoluteEncoder = WPI_CANCoder(configuration.steerEncoderCANId)
-    private val driveMotor = WPI_TalonFX(configuration.driveMotorCANId)
-    private val steerMotor = WPI_TalonFX(configuration.steerMotorCANId)
+    private val absoluteEncoder = WPI_CANCoder(cfg.steerEncoderCANId)
+    private val driveMotor = WPI_TalonFX(cfg.driveMotorCANId)
+    private val steerMotor = WPI_TalonFX(cfg.steerMotorCANId)
 
     private val driveFeedForward = DRIVE_FEED_FORWARD.build()
 
-    private val steerEncoderOffset = configuration.steerEncoderOffset
+    private val steerEncoderOffset = if (Robot.real) cfg.steerEncoderOffset else cfg.simulationEncoderOffset
 
     private var lastAngle: Rotation2d
 
@@ -109,13 +109,13 @@ class SwerveModule(val configuration: SwerveModuleConfigurations) {
         setSpeed(optimizedState, openLoop)
         setAngle(optimizedState)
 
-        SmartDashboard.putNumber("Swerve Desired: ${configuration.name} Speed", desired.speedMetersPerSecond)
-        SmartDashboard.putNumber("Swerve Desired: ${configuration.name} Angle", desired.angle.degrees)
+        SmartDashboard.putNumber("Swerve Desired: ${cfg.name} Speed", desired.speedMetersPerSecond)
+        SmartDashboard.putNumber("Swerve Desired: ${cfg.name} Angle", desired.angle.degrees)
         SmartDashboard.putNumber(
-            "Swerve Optimized Desired: ${configuration.name} Speed",
+            "Swerve Optimized Desired: ${cfg.name} Speed",
             optimizedState.speedMetersPerSecond
         )
-        SmartDashboard.putNumber("Swerve Optimized Desired: ${configuration.name} Angle", optimizedState.angle.degrees)
+        SmartDashboard.putNumber("Swerve Optimized Desired: ${cfg.name} Angle", optimizedState.angle.degrees)
     }
 
     val position

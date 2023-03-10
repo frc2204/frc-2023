@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 import edu.wpi.first.math.util.Units
 import org.crosspointacademy.lib.swerve.util.MotorFeedForwardBuilder
-import org.crosspointacademy.lib.swerve.util.PIDFBuilder
+import org.crosspointacademy.lib.PIDFBuilder
 import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
@@ -34,7 +34,7 @@ object Swerve {
     const val DRIVE_INVERTED = false
     val DRIVE_NEUTRAL_MODE = NeutralMode.Brake
     val DRIVE_PID = PIDFBuilder(0.08, 0.0, 0.0, 0.0)
-    val DRIVE_FEED_FORWARD = MotorFeedForwardBuilder(0.0, 0.0, 0.0)
+    val DRIVE_FEED_FORWARD = MotorFeedForwardBuilder(0.32 / 12, 1.51 / 12, 0.27 / 12)
     const val DRIVE_CURRENT_LIMIT_ENABLED = true
     const val DRIVE_CURRENT_LIMIT = 35.0
     const val DRIVE_CURRENT_PEAK_LIMIT = 60.0
