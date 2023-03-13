@@ -1,11 +1,15 @@
 package org.crosspointacademy.lib
 
-import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.DriverStation
 
 object Logger {
 
-    private fun logger(message: String) = println("[${Timer.getFPGATimestamp()}] [LOGGER] $message")
+    fun warn(msg: String, trace: Boolean = false) {
+        DriverStation.reportWarning(msg, trace)
+    }
 
-    fun input(message: String) = logger("[INPUT] : $message")
+    fun err(msg: String, trace: Boolean) {
+        DriverStation.reportError(msg, trace)
+    }
 
 }
