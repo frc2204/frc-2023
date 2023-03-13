@@ -51,11 +51,14 @@ object RobotContainer {
         Trigger { xboxController.aButtonPressed }.onTrue(SwerveSubsystem.zeroGyro())
     }
 
-    fun getAutonomousCommand(): Command? {
-        return Autos.autoBuilder.fullAuto(
-            PathPlanner.loadPathGroup(
-                Autos.autoModeChooser.selected.pathName,
-                PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
+    fun getAutonomousCommand(): Command {
+        return SequentialCommandGroup(
+            HomeArms,
+            Autos.autoBuilder.fullAuto(
+                PathPlanner.loadPathGroup(
+                    Autos.autoModeChooser.selected.pathName,
+                    PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
+                )
             )
         )
     }
