@@ -7,5 +7,9 @@ object ClawSubsystem : SubsystemBase() {
 
     private val pneumaticHub = PneumaticHub(15)
 
+    init {
+        pneumaticHub.enableCompressorDigital()
+    }
+
 
 }
