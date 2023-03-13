@@ -100,9 +100,9 @@ object SwerveSubsystem : SubsystemBase() {
         SmartDashboard.putNumber("Gyro", gyroAngle)
 
         modules.forEach {
-            SmartDashboard.putNumber("${it.cfg.name} CANCoder", it.canCoder.degrees)
-            SmartDashboard.putNumber("${it.cfg.name} Integrated", it.position.angle.degrees)
-            SmartDashboard.putNumber("${it.cfg.name} Velocity", it.state.speedMetersPerSecond)
+            SmartDashboard.putNumber("${it.config.name} CANCoder", it.canCoder.degrees)
+            SmartDashboard.putNumber("${it.config.name} Integrated", it.position.angle.degrees)
+            SmartDashboard.putNumber("${it.config.name} Velocity", it.state.speedMetersPerSecond)
         }
     }
 
