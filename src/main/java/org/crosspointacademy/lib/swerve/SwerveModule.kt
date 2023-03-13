@@ -27,15 +27,15 @@ import org.crosspointacademy.lib.swerve.util.Conversions.mpsToFalcon
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
-class SwerveModule(val cfg: SwerveModuleConfiguration) {
+class SwerveModule(val config: SwerveModuleConfiguration) {
 
-    private val absoluteEncoder = WPI_CANCoder(cfg.steerEncoderCANId)
-    private val driveMotor = WPI_TalonFX(cfg.driveMotorCANId)
-    private val steerMotor = WPI_TalonFX(cfg.steerMotorCANId)
+    private val absoluteEncoder = WPI_CANCoder(config.steerEncoderCANId)
+    private val driveMotor = WPI_TalonFX(config.driveMotorCANId)
+    private val steerMotor = WPI_TalonFX(config.steerMotorCANId)
 
     private val driveFeedForward = DRIVE_FEED_FORWARD.build()
 
-    private val steerEncoderOffset = if (Robot.real) cfg.steerEncoderOffset else cfg.simulationEncoderOffset
+    private val steerEncoderOffset = if (Robot.real) config.steerEncoderOffset else config.simulationEncoderOffset
 
     private var lastAngle: Rotation2d
 
@@ -112,13 +112,13 @@ class SwerveModule(val cfg: SwerveModuleConfiguration) {
         setSpeed(optimizedState, openLoop)
         setAngle(optimizedState)
 
-        SmartDashboard.putNumber("Swerve Desired: ${cfg.name} Speed", desired.speedMetersPerSecond)
-        SmartDashboard.putNumber("Swerve Desired: ${cfg.name} Angle", desired.angle.degrees)
+        SmartDashboard.putNumber("Swerve Desired: ${config.name} Speed", desired.speedMetersPerSecond)
+        SmartDashboard.putNumber("Swerve Desired: ${config.name} Angle", desired.angle.degrees)
         SmartDashboard.putNumber(
-            "Swerve Optimized Desired: ${cfg.name} Speed",
+            "Swerve Optimized Desired: ${config.name} Speed",
             optimizedState.speedMetersPerSecond
         )
-        SmartDashboard.putNumber("Swerve Optimized Desired: ${cfg.name} Angle", optimizedState.angle.degrees)
+        SmartDashboard.putNumber("Swerve Optimized Desired: ${config.name} Angle", optimizedState.angle.degrees)
     }
 
     val position
