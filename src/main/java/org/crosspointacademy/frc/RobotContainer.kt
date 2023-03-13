@@ -5,9 +5,11 @@ import com.pathplanner.lib.PathPlanner
 import com.pathplanner.lib.server.PathPlannerServer
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj2.command.Command
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import edu.wpi.first.wpilibj2.command.button.Trigger
 import org.crosspointacademy.frc.commands.Autos
 import org.crosspointacademy.frc.commands.SwerveTeleop
+import org.crosspointacademy.frc.commands.arm.HomeArms
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER

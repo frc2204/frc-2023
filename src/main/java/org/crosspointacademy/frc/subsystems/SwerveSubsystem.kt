@@ -74,7 +74,7 @@ object SwerveSubsystem : SubsystemBase() {
             adis16470ImuSim.setGyroAngleZ(gyroAngle + chassisSpeeds.omegaRadiansPerSecond * 0.02 * 180 / Math.PI)
         }
     }
-    
+
     fun zeroGyro(): CommandBase = runOnce {
         adis16470Imu.reset()
     }

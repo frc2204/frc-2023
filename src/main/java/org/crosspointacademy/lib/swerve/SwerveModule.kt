@@ -88,7 +88,11 @@ class SwerveModule(val cfg: SwerveModuleConfiguration) {
         }
 
         if (Robot.simulation) {
-            driveMotor.selectedSensorPosition += metersToFalcon(state.speedMetersPerSecond * 0.02, WHEEL_CIRCUMFERENCE, DRIVE_RATIO).roundToInt()
+            driveMotor.selectedSensorPosition += metersToFalcon(
+                state.speedMetersPerSecond * 0.02,
+                WHEEL_CIRCUMFERENCE,
+                DRIVE_RATIO
+            ).roundToInt()
         }
     }
 
@@ -123,9 +127,10 @@ class SwerveModule(val cfg: SwerveModuleConfiguration) {
             angle
         )
 
-    private val angle: Rotation2d get() = Rotation2d.fromDegrees(
-        falconToDegrees(steerMotor.selectedSensorPosition, STEER_RATIO)
-    )
+    private val angle: Rotation2d
+        get() = Rotation2d.fromDegrees(
+            falconToDegrees(steerMotor.selectedSensorPosition, STEER_RATIO)
+        )
 
     val canCoder: Rotation2d get() = Rotation2d.fromDegrees(absoluteEncoder.absolutePosition)
 
