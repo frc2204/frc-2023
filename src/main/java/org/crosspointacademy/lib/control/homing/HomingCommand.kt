@@ -15,7 +15,6 @@ class HomingCommand(private val motor: HomingNEOSparkMax, private val config: Ho
         motor.apply {
             homingState = HomingState.HOMING
             if (atHome) {
-                stop()
                 resetEncoder()
                 homingState = HomingState.HOMED
                 isFinished = true
@@ -26,6 +25,10 @@ class HomingCommand(private val motor: HomingNEOSparkMax, private val config: Ho
 
     override fun isFinished(): Boolean {
         return isFinished
+    }
+
+    override fun end(interrupted: Boolean) {
+        motor.stop()
     }
 
 }
