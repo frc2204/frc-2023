@@ -22,6 +22,7 @@ import org.crosspointacademy.lib.swerve.util.CTREModuleState.optimize
 import org.crosspointacademy.lib.swerve.util.Conversions.degreesToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToDegrees
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToMPS
+import org.crosspointacademy.lib.swerve.util.Conversions.falconToMeters
 import org.crosspointacademy.lib.swerve.util.Conversions.metersToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.mpsToFalcon
 import kotlin.math.abs
@@ -123,7 +124,7 @@ class SwerveModule(val config: SwerveModuleConfiguration) {
 
     val position
         get() = SwerveModulePosition(
-            falconToMPS(driveMotor.selectedSensorPosition, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
+            falconToMeters(driveMotor.selectedSensorPosition, WHEEL_CIRCUMFERENCE, DRIVE_RATIO),
             angle
         )
 
