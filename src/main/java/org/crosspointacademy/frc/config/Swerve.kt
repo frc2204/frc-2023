@@ -11,8 +11,8 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
 
-    const val DRIVE_POWER = 0.3
-    const val ROTATIONAL_POWER = 0.6
+    const val DRIVE_POWER = 0.4
+    const val ROTATIONAL_POWER = 0.5
 
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
@@ -23,8 +23,6 @@ object Swerve {
     // Auto configuration
     val AUTO_TRANSLATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
     val AUTO_ROTATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
-    val AUTO_MAX_VELOCITY = Units.feetToMeters(4.0)
-    val AUTO_MAX_ACCELERATION = Units.feetToMeters(3.0)
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
