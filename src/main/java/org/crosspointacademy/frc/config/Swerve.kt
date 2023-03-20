@@ -24,6 +24,8 @@ object Swerve {
     val MAX_OMEGA: Rotation2d = Rotation2d.fromRadians(6.0)// TODO requires testing
 
     // Auto configuration
+    val AUTO_MAX_VELOCITY = 4.0
+    val AUTO_MAX_ACCELERATION = 2.0
     val AUTO_TRANSLATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
     val AUTO_ROTATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
 
