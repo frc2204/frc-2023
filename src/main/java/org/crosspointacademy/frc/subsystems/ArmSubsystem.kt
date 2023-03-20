@@ -8,6 +8,7 @@ import org.crosspointacademy.frc.config.Arm.FIRST_JOINT_CONFIG
 import org.crosspointacademy.frc.config.Arm.FIRST_JOINT_SPARK_ID
 import org.crosspointacademy.frc.config.Arm.SECOND_JOINT_CONFIG
 import org.crosspointacademy.frc.config.Arm.SECOND_JOINT_SPARK_ID
+import org.crosspointacademy.lib.Logger.cmd
 import org.crosspointacademy.lib.control.homing.HomingNEOSparkMax
 
 object ArmSubsystem : SubsystemBase() {
@@ -16,6 +17,10 @@ object ArmSubsystem : SubsystemBase() {
     val secondJoint = HomingNEOSparkMax(SECOND_JOINT_SPARK_ID, SECOND_JOINT_CONFIG)
 
     var selectedPosition: Arm.Positions? = null
+        set(value) {
+            field = value
+            cmd("Selected position set to $value")
+        }
 
     fun setTargetPosition(position: Arm.Positions?): CommandBase = runOnce {
         selectedPosition = position
