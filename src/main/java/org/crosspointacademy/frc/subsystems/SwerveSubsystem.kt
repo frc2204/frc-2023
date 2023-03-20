@@ -14,13 +14,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.crosspointacademy.frc.Robot
-import org.crosspointacademy.frc.config.Limelight.FIXED_LIMELIGHT_NAME
+import org.crosspointacademy.frc.config.Status
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
 import org.crosspointacademy.frc.config.SwerveModuleConfigurations
-import org.crosspointacademy.lib.limelight.LimelightHelpers
 import org.crosspointacademy.lib.swerve.SwerveModule
+import kotlin.math.sqrt
 
 object SwerveSubsystem : SubsystemBase() {
 
@@ -65,6 +65,9 @@ object SwerveSubsystem : SubsystemBase() {
             ChassisSpeeds.fromFieldRelativeSpeeds(translation.x, translation.y, rotation, yaw)
         } else ChassisSpeeds(translation.x, translation.y, rotation)
 
+        val magnitude = sqrt(translation.x * translation.x + translation.y * translation.y)
+        if (magnitude > 0.2) StatusSubsystem.setStatus(Status.DRIVE)
+
         val moduleStates = KINEMATICS.toSwerveModuleStates(chassisSpeeds)
 
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, MAX_SPEED)
@@ -89,10 +92,10 @@ object SwerveSubsystem : SubsystemBase() {
 
     override fun periodic() {
         poseEstimator.update(yaw, modulePositions)
-        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
-            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
-            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
-        )
+//        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
+//            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
+//            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
+//        )
 
         field.robotPose = pose
 
