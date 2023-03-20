@@ -1,5 +1,7 @@
 package org.crosspointacademy.frc
 
+import com.pathplanner.lib.PathConstraints
+import com.pathplanner.lib.PathPlanner
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj2.command.Command
@@ -12,6 +14,10 @@ import org.crosspointacademy.frc.commands.arm.PositionArm
 import org.crosspointacademy.frc.commands.claw.CloseClaw
 import org.crosspointacademy.frc.commands.claw.OpenClaw
 import org.crosspointacademy.frc.config.Arm
+import org.crosspointacademy.frc.config.Arm.getNextPosition
+import org.crosspointacademy.frc.config.Arm.getPreviousPosition
+import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
+import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER
 import org.crosspointacademy.frc.config.Swerve.ROTATIONAL_POWER
 import org.crosspointacademy.frc.subsystems.ArmSubsystem
@@ -56,10 +62,10 @@ object RobotContainer {
 
         // Arm Control
         Trigger { xboxController.backButtonPressed }.onTrue(setTargetPosition(null))
-        Trigger { xboxController.xButtonPressed }.onTrue(setTargetPosition(Arm.Positions.HOME))
-        Trigger { xboxController.yButtonPressed }.onTrue(setTargetPosition(Arm.Positions.FIRST_NODE))
-        Trigger { xboxController.bButtonPressed }.onTrue(setTargetPosition(Arm.Positions.SECOND_NODE))
-        Trigger { xboxController.aButtonPressed }.onTrue(setTargetPosition(Arm.Positions.THIRD_NODE))
+        Trigger { xboxController.yButtonPressed }.onTrue(setTargetPosition(getNextPosition()))
+        Trigger { xboxController.bButtonPressed }.onTrue(setTargetPosition(getPreviousPosition()))
+        Trigger { xboxController.xButtonPressed }.onTrue(setTargetPosition(Arm.Positions.FLOOR))
+        Trigger { xboxController.aButtonPressed }.onTrue(setTargetPosition(Arm.Positions.HOME))
 
         // Claw Control
         Trigger { xboxController.leftBumper }.onTrue(CloseClaw())
