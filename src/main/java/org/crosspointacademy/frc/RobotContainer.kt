@@ -1,8 +1,6 @@
 package org.crosspointacademy.frc
 
-import com.pathplanner.lib.PathConstraints
-import com.pathplanner.lib.PathPlanner
-import com.pathplanner.lib.server.PathPlannerServer
+import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.XboxController
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
@@ -10,10 +8,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger
 import org.crosspointacademy.frc.commands.Autos
 import org.crosspointacademy.frc.commands.SwerveTeleop
 import org.crosspointacademy.frc.commands.arm.HomeArms
-import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
-import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
+import org.crosspointacademy.frc.commands.arm.PositionArm
+import org.crosspointacademy.frc.commands.claw.CloseClaw
+import org.crosspointacademy.frc.commands.claw.OpenClaw
+import org.crosspointacademy.frc.config.Arm
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER
 import org.crosspointacademy.frc.config.Swerve.ROTATIONAL_POWER
+import org.crosspointacademy.frc.subsystems.ArmSubsystem
+import org.crosspointacademy.frc.subsystems.ArmSubsystem.setTargetPosition
 import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
 /**
@@ -29,7 +31,9 @@ import org.crosspointacademy.frc.subsystems.SwerveSubsystem
  */
 object RobotContainer {
 
-    private val xboxController = XboxController(0)
+    private val primaryJoystick = Joystick(0)
+    private val secondaryJoystick = Joystick(1)
+    private val xboxController = XboxController(2)
 
     init {
 
@@ -37,29 +41,40 @@ object RobotContainer {
         Autos // Reference the Autos object so that it is initialized, placing the chooser on the dashboard
 
         SwerveSubsystem.defaultCommand = SwerveTeleop(
-            { xboxController.leftY * DRIVE_POWER },
-            { xboxController.leftX * DRIVE_POWER },
-            { xboxController.rightX * ROTATIONAL_POWER },
+            { primaryJoystick.y * DRIVE_POWER },
+            { primaryJoystick.x * DRIVE_POWER },
+            { secondaryJoystick.x * ROTATIONAL_POWER },
             { xboxController.bButtonPressed }
         )
 
-        PathPlannerServer.startServer(5811)
+        ArmSubsystem.defaultCommand = PositionArm()
     }
 
     /** Use this method to define your `trigger->command` mappings. */
     private fun configureBindings() {
-        Trigger { xboxController.aButtonPressed }.onTrue(SwerveSubsystem.zeroGyro())
+        Trigger { secondaryJoystick.trigger }.onTrue(SwerveSubsystem.zeroGyro())
+
+        // Arm Control
+        Trigger { xboxController.backButtonPressed }.onTrue(setTargetPosition(null))
+        Trigger { xboxController.xButtonPressed }.onTrue(setTargetPosition(Arm.Positions.HOME))
+        Trigger { xboxController.yButtonPressed }.onTrue(setTargetPosition(Arm.Positions.FIRST_NODE))
+        Trigger { xboxController.bButtonPressed }.onTrue(setTargetPosition(Arm.Positions.SECOND_NODE))
+        Trigger { xboxController.aButtonPressed }.onTrue(setTargetPosition(Arm.Positions.THIRD_NODE))
+
+        // Claw Control
+        Trigger { xboxController.leftBumper }.onTrue(CloseClaw())
+        Trigger { xboxController.rightBumper }.onTrue(OpenClaw())
     }
 
     fun getAutonomousCommand(): Command {
         return SequentialCommandGroup(
-            HomeArms,
-            Autos.autoBuilder.fullAuto(
-                PathPlanner.loadPathGroup(
-                    Autos.autoModeChooser.selected.pathName,
-                    PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
-                )
-            )
+            HomeArms(),
+//            Autos.autoBuilder.fullAuto(
+//                PathPlanner.loadPathGroup(
+//                    Autos.autoModeChooser.selected.pathName,
+//                    PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
+//                )
+//            )
         )
     }
 
