@@ -2,6 +2,7 @@ package org.crosspointacademy.frc.commands.claw
 
 import edu.wpi.first.wpilibj2.command.CommandBase
 import org.crosspointacademy.frc.subsystems.ClawSubsystem
+import org.crosspointacademy.lib.Logger.cmd
 
 class CloseClaw : CommandBase() {
 
@@ -10,6 +11,7 @@ class CloseClaw : CommandBase() {
     }
 
     override fun initialize() {
+        cmd("Closing claw")
         ClawSubsystem.close()
     }
 
