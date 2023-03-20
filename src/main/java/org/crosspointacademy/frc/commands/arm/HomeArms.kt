@@ -17,5 +17,4 @@ object HomeArms : CommandBase() {
     override fun isFinished(): Boolean {
         return firstJointHomeCommand.isFinished && secondJointHomeCommand.isFinished
     }
-
 }
