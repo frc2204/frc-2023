@@ -1,5 +1,6 @@
 package org.crosspointacademy.frc.commands.arm
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import org.crosspointacademy.frc.subsystems.ArmSubsystem
 
