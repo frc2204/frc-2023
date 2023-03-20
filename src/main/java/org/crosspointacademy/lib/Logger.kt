@@ -8,6 +8,10 @@ object Logger {
         println("[STARTUP] $msg")
     }
 
+    fun cmd(msg: String) {
+        println("[COMMAND] $msg")
+    }
+
     fun warn(msg: String, trace: Boolean = false) {
         DriverStation.reportWarning(msg, trace)
     }
