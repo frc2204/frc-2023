@@ -14,11 +14,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.crosspointacademy.frc.Robot
+import org.crosspointacademy.frc.config.Limelight.FIXED_LIMELIGHT_NAME
 import org.crosspointacademy.frc.config.Status
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
+import org.crosspointacademy.frc.config.Swerve.STATE_STANDARD_DEVIATIONS
+import org.crosspointacademy.frc.config.Swerve.VISION_STANDARD_DEVIATIONS
 import org.crosspointacademy.frc.config.SwerveModuleConfigurations
+import org.crosspointacademy.lib.limelight.LimelightHelpers
 import org.crosspointacademy.lib.swerve.SwerveModule
 import kotlin.math.sqrt
 
@@ -55,7 +59,14 @@ object SwerveSubsystem : SubsystemBase() {
         Timer.delay(1.0)
         resetModulesToAbsolute()
 
-        poseEstimator = SwerveDrivePoseEstimator(KINEMATICS, yaw, modulePositions, Pose2d(0.0, 0.0, Rotation2d()))
+        poseEstimator = SwerveDrivePoseEstimator(
+            KINEMATICS,
+            yaw,
+            modulePositions,
+            Pose2d(0.0, 0.0, Rotation2d()),
+            STATE_STANDARD_DEVIATIONS,
+            VISION_STANDARD_DEVIATIONS,
+        )
         SmartDashboard.putData("Field", field)
     }
 
@@ -92,10 +103,10 @@ object SwerveSubsystem : SubsystemBase() {
 
     override fun periodic() {
         poseEstimator.update(yaw, modulePositions)
-//        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
-//            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
-//            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
-//        )
+        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
+            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
+            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
+        )
 
         field.robotPose = pose
 

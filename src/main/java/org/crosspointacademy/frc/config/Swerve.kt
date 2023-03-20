@@ -1,6 +1,7 @@
 package org.crosspointacademy.frc.config
 
 import com.ctre.phoenix.motorcontrol.NeutralMode
+import edu.wpi.first.math.VecBuilder
 import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Translation2d
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
@@ -49,6 +50,9 @@ object Swerve {
     const val STEER_CURRENT_LIMIT = 25.0
     const val STEER_CURRENT_PEAK_LIMIT = 40.0
     val STEER_CURRENT_PEAK_DURATION = 100.milliseconds
+
+    val STATE_STANDARD_DEVIATIONS = VecBuilder.fill(0.1, 0.1, 0.1)
+    val VISION_STANDARD_DEVIATIONS = VecBuilder.fill(0.1, 0.1, 0.1)
 
 
     // Chassis Configuration
