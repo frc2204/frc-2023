@@ -13,20 +13,20 @@ object Arm {
         "First Joint",
         0,
         0.2,
-        0.3,
-        PIDFBuilder(0.0, 0.0, 0.0),
+        15.0,
+        PIDFBuilder(0.15, 0.0, 0.0),
         -0.3 to 0.3,
-        CANSparkMax.IdleMode.kBrake
+        CANSparkMax.IdleMode.kBrake,
     )
 
     val SECOND_JOINT_CONFIG = HomingConfiguration(
         "Second Joint",
         1,
         0.2,
-        0.3,
-        PIDFBuilder(0.0, 0.0, 0.0),
-        -0.3 to 0.3,
-        CANSparkMax.IdleMode.kBrake
+        15.0,
+        PIDFBuilder(0.1, 0.0, 0.0),
+        -0.6 to 0.6,
+        CANSparkMax.IdleMode.kBrake,
     )
 
 
@@ -36,6 +36,10 @@ object Arm {
     ) {
 
         HOME(0.0, 0.0),
+        FLOOR(0.0, 0.0),
+        FIRST_NODE(0.0, -10.0),
+        SECOND_NODE(19.0, 10.0),
+        THIRD_NODE(28.0, -1.0),
 
     }
 
