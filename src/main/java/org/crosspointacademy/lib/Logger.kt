@@ -4,6 +4,10 @@ import edu.wpi.first.wpilibj.DriverStation
 
 object Logger {
 
+    fun startup(msg: String) {
+        println("[STARTUP] $msg")
+    }
+
     fun warn(msg: String, trace: Boolean = false) {
         DriverStation.reportWarning(msg, trace)
     }
