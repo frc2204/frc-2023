@@ -19,6 +19,7 @@ import org.crosspointacademy.frc.config.Swerve.STEER_NEUTRAL_MODE
 import org.crosspointacademy.frc.config.Swerve.STEER_RATIO
 import org.crosspointacademy.frc.config.Swerve.WHEEL_CIRCUMFERENCE
 import org.crosspointacademy.lib.swerve.util.CTREModuleState.optimize
+import org.crosspointacademy.lib.swerve.util.CTREModuleState.optimizeTurn
 import org.crosspointacademy.lib.swerve.util.Conversions.degreesToFalcon
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToDegrees
 import org.crosspointacademy.lib.swerve.util.Conversions.falconToMPS
@@ -98,7 +99,9 @@ class SwerveModule(val config: SwerveModuleConfiguration) {
     }
 
     private fun setAngle(state: SwerveModuleState) {
-        val angle = if (abs(state.speedMetersPerSecond) <= MAX_SPEED * 0.01) lastAngle else state.angle
+        var angle = if (abs(state.speedMetersPerSecond) <= MAX_SPEED * 0.01) lastAngle else state.angle
+        val oldAngle = this.angle
+        angle = optimizeTurn(oldAngle, angle)
         val position = degreesToFalcon(angle.degrees, STEER_RATIO)
         steerMotor.set(ControlMode.Position, position)
         lastAngle = angle
