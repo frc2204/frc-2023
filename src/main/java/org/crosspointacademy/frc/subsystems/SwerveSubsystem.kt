@@ -16,6 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase
 import org.crosspointacademy.frc.Robot
 import org.crosspointacademy.frc.config.Limelight.FIXED_LIMELIGHT_NAME
 import org.crosspointacademy.frc.config.Status
+import org.crosspointacademy.frc.config.Swerve.FIELD_LENGTH_METERS
+import org.crosspointacademy.frc.config.Swerve.FIELD_WIDTH_METERS
 import org.crosspointacademy.frc.config.Swerve.INVERTED_GYRO
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
 import org.crosspointacademy.frc.config.Swerve.MAX_SPEED
@@ -103,10 +105,20 @@ object SwerveSubsystem : SubsystemBase() {
 
     override fun periodic() {
         poseEstimator.update(yaw, modulePositions)
-        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)) poseEstimator.addVisionMeasurement(
-            LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME),
-            LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
-        )
+        
+        if (LimelightHelpers.getTV(FIXED_LIMELIGHT_NAME)){
+            val limelightPose = LimelightHelpers.getBotPose2d(FIXED_LIMELIGHT_NAME)
+            val actualPose = Pose2d(
+                limelightPose.x + FIELD_LENGTH_METERS / 2,
+                limelightPose.y + FIELD_WIDTH_METERS / 2,
+                limelightPose.rotation
+            )
+
+//            poseEstimator.addVisionMeasurement(
+//                actualPose,
+//                LimelightHelpers.getVisionTimestamp(FIXED_LIMELIGHT_NAME),
+//            )
+        }
 
         field.robotPose = pose
 
