@@ -5,14 +5,6 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark
 
 class Blinkin(channel: Int) : Spark(channel) {
 
-    override fun disable() {
-        return
-    }
-
-    override fun stopMotor() {
-        return
-    }
-
     fun set(pattern: BlinkinPattern) {
         val currentAlliance = DriverStation.getAlliance()
         var currentAlliancePattern = BlinkinPattern.RED
