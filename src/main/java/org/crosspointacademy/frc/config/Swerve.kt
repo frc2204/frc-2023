@@ -20,14 +20,17 @@ object Swerve {
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 
+    val FIELD_LENGTH_METERS = 16.54175
+    val FIELD_WIDTH_METERS = 8.0137
+
     val MAX_SPEED = Units.feetToMeters(15.13)
     val MAX_OMEGA: Rotation2d = Rotation2d.fromRadians(6.0)// TODO requires testing
 
     // Auto configuration
-    val AUTO_MAX_VELOCITY = 4.0
-    val AUTO_MAX_ACCELERATION = 2.0
-    val AUTO_TRANSLATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
-    val AUTO_ROTATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
+    const val AUTO_MAX_VELOCITY = 0.5
+    const val AUTO_MAX_ACCELERATION = 2.0
+    val AUTO_TRANSLATIONAL_PID = PIDFBuilder(0.1, 0.0, 0.0)
+    val AUTO_ROTATIONAL_PID = PIDFBuilder(0.1, 0.0, 0.0)
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
