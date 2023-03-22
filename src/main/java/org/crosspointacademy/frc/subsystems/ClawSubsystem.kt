@@ -18,12 +18,12 @@ object ClawSubsystem : SubsystemBase() {
     }
 
     fun open() {
-        solenoid.set(DoubleSolenoid.Value.kForward)
+        solenoid.set(DoubleSolenoid.Value.kReverse)
         StatusSubsystem.setStatus(Status.CLAW_OPEN)
     }
 
     fun close() {
-        solenoid.set(DoubleSolenoid.Value.kReverse)
+        solenoid.set(DoubleSolenoid.Value.kForward)
         StatusSubsystem.setStatus(Status.CLAW_CLOSE)
     }
 
