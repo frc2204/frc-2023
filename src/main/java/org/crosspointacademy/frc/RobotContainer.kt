@@ -57,7 +57,8 @@ object RobotContainer {
             { xboxController.bButtonPressed }
         )
 
-        ArmSubsystem.defaultCommand = PositionArm()
+        ArmSubsystem.defaultCommand = TeleopPositionArm()
+
     }
 
     /** Use this method to define your `trigger->command` mappings. */
@@ -65,25 +66,34 @@ object RobotContainer {
         Trigger { secondaryJoystick.trigger }.onTrue(SwerveSubsystem.zeroGyro())
 
         // Arm Control
+        Trigger { xboxController.startButtonPressed }.onTrue(
+            SequentialCommandGroup(
+                ResetOffsets(),
+                ArmSubsystem.secondJoint.home(),
+                setTargetPosition(Arm.Positions.HOME),
+            )
+        )
         Trigger { xboxController.backButtonPressed }.onTrue(setTargetPosition(null))
         Trigger { xboxController.yButtonPressed }.onTrue(nextTargetPosition())
         Trigger { xboxController.bButtonPressed }.onTrue(previousTargetPosition())
         Trigger { xboxController.xButtonPressed }.onTrue(setTargetPosition(Arm.Positions.FLOOR))
         Trigger { xboxController.aButtonPressed }.onTrue(setTargetPosition(Arm.Positions.HOME))
 
+        Trigger { xboxController.pov == 0 }.onTrue(AddOffsetJointOne())
+        Trigger { xboxController.pov == 90 }.onTrue(AddOffsetJointTwo())
+        Trigger { xboxController.pov == 180 }.onTrue(SubtractOffsetJointOne())
+        Trigger { xboxController.pov == 270 }.onTrue(SubtractOffsetJointTwo())
+
         // Claw Control
-        Trigger { xboxController.leftBumper }.onTrue(CloseClaw())
-        Trigger { xboxController.rightBumper }.onTrue(OpenClaw())
+        Trigger { xboxController.leftBumper }.onTrue(OpenClaw())
+        Trigger { xboxController.rightBumper }.onTrue(CloseClaw())
     }
 
     fun getAutonomousCommand(): Command {
-        return SequentialCommandGroup(
-            HomeArms(),
-            Autos.autoBuilder.fullAuto(
-                PathPlanner.loadPathGroup(
-                    Autos.autoModeChooser.selected.pathName,
-                    PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
-                )
+        return Autos.autoBuilder.fullAuto(
+            PathPlanner.loadPathGroup(
+                Autos.autoModeChooser.selected.pathName,
+                PathConstraints(AUTO_MAX_VELOCITY, AUTO_MAX_ACCELERATION)
             )
         )
     }

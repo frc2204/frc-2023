@@ -5,15 +5,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
-import org.crosspointacademy.frc.commands.Autos.AutoEvents.pickupItem
-import org.crosspointacademy.frc.commands.Autos.AutoEvents.placeNode
+import edu.wpi.first.wpilibj2.command.WaitCommand
+import org.crosspointacademy.frc.commands.Autos.AutoEvents.PLACE_THIRD_NODE
+import org.crosspointacademy.frc.commands.arm.PositionArm
 import org.crosspointacademy.frc.commands.claw.CloseClaw
 import org.crosspointacademy.frc.commands.claw.OpenClaw
 import org.crosspointacademy.frc.config.Arm
 import org.crosspointacademy.frc.config.Swerve.AUTO_ROTATIONAL_PID
 import org.crosspointacademy.frc.config.Swerve.AUTO_TRANSLATIONAL_PID
 import org.crosspointacademy.frc.config.Swerve.KINEMATICS
-import org.crosspointacademy.frc.subsystems.ArmSubsystem
 import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
 object Autos {
@@ -35,24 +35,21 @@ object Autos {
     }
 
     object AutoEvents {
-        fun placeNode(positionCommand: Command) = SequentialCommandGroup(
+
+        val PLACE_THIRD_NODE = SequentialCommandGroup(
             CloseClaw(),
-            positionCommand,
-            OpenClaw()
-        )
-
-
-        val pickupItem = SequentialCommandGroup(
+            PositionArm(Arm.Positions.THIRD_NODE, 1.0, 1.0),
+            WaitCommand(2.0),
             OpenClaw(),
-            ArmSubsystem.setTargetPosition(Arm.Positions.FLOOR),
+            WaitCommand(1.0),
+            PositionArm(Arm.Positions.HOME, 1.0, 1.0),
             CloseClaw(),
-            ArmSubsystem.setTargetPosition(Arm.Positions.HOME),
         )
+
     }
 
-    private val EVENT_MAP = mapOf(
-        "PLACE_THIRD_NODE" to placeNode(ArmSubsystem.setTargetPosition(Arm.Positions.THIRD_NODE)),
-        "PICKUP" to pickupItem
+    private val EVENT_MAP = mapOf<String, Command>(
+        "PLACE_THIRD_NODE" to PLACE_THIRD_NODE,
     )
 
     val autoBuilder = SwerveAutoBuilder(
