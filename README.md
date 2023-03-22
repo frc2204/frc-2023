@@ -9,9 +9,12 @@ It is written in Kotlin with Java interoperability and uses the WPILib library.
 The drivetrain this year features 4 West Coast Products Swerve X modules, in the flipped Gears Below configuration.
 Each module is controlled with 2 Talon 500 motors along with a CTRE Mag Encoder (CANCoder) for swerve module angle.
 
+## Arm
+The arm this year consists of two joints, each powered by a NEO.
 
 ## Requirements
-In order to build and deploy the code, you must have the WPILib toolchain installed. You can find instructions for installing the toolchain [here](https://docs.wpilib.org/en/latest/docs/zero-to-robot/step-2/wpilib-setup.html).
+In order to build and deploy the code, you must have the WPILib toolchain installed. You can find instructions for 
+installing the toolchain [here](https://docs.wpilib.org/en/latest/docs/zero-to-robot/step-2/wpilib-setup.html).
 
 ### IntelliJ IDEA
 Intellisense within the native WPI VSCode is limited, and therefore our team has opted to use IntelliJ IDEA, featuring
