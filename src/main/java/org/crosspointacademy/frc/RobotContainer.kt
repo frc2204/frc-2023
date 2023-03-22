@@ -9,18 +9,22 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import edu.wpi.first.wpilibj2.command.button.Trigger
 import org.crosspointacademy.frc.commands.Autos
 import org.crosspointacademy.frc.commands.SwerveTeleop
-import org.crosspointacademy.frc.commands.arm.HomeArms
-import org.crosspointacademy.frc.commands.arm.PositionArm
+import org.crosspointacademy.frc.commands.arm.ResetOffsets
+import org.crosspointacademy.frc.commands.arm.TeleopPositionArm
+import org.crosspointacademy.frc.commands.arm.offset.AddOffsetJointOne
+import org.crosspointacademy.frc.commands.arm.offset.AddOffsetJointTwo
+import org.crosspointacademy.frc.commands.arm.offset.SubtractOffsetJointOne
+import org.crosspointacademy.frc.commands.arm.offset.SubtractOffsetJointTwo
 import org.crosspointacademy.frc.commands.claw.CloseClaw
 import org.crosspointacademy.frc.commands.claw.OpenClaw
 import org.crosspointacademy.frc.config.Arm
-import org.crosspointacademy.frc.config.Arm.getNextPosition
-import org.crosspointacademy.frc.config.Arm.getPreviousPosition
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_ACCELERATION
 import org.crosspointacademy.frc.config.Swerve.AUTO_MAX_VELOCITY
 import org.crosspointacademy.frc.config.Swerve.DRIVE_POWER
 import org.crosspointacademy.frc.config.Swerve.ROTATIONAL_POWER
 import org.crosspointacademy.frc.subsystems.ArmSubsystem
+import org.crosspointacademy.frc.subsystems.ArmSubsystem.nextTargetPosition
+import org.crosspointacademy.frc.subsystems.ArmSubsystem.previousTargetPosition
 import org.crosspointacademy.frc.subsystems.ArmSubsystem.setTargetPosition
 import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
@@ -62,8 +66,8 @@ object RobotContainer {
 
         // Arm Control
         Trigger { xboxController.backButtonPressed }.onTrue(setTargetPosition(null))
-        Trigger { xboxController.yButtonPressed }.onTrue(setTargetPosition(getNextPosition()))
-        Trigger { xboxController.bButtonPressed }.onTrue(setTargetPosition(getPreviousPosition()))
+        Trigger { xboxController.yButtonPressed }.onTrue(nextTargetPosition())
+        Trigger { xboxController.bButtonPressed }.onTrue(previousTargetPosition())
         Trigger { xboxController.xButtonPressed }.onTrue(setTargetPosition(Arm.Positions.FLOOR))
         Trigger { xboxController.aButtonPressed }.onTrue(setTargetPosition(Arm.Positions.HOME))
 
