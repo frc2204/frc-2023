@@ -8,6 +8,10 @@ object Logger {
         println("[STARTUP] $msg")
     }
 
+    fun debug(msg: String) {
+        println("[DEBUG] $msg")
+    }
+
     fun cmd(msg: String) {
         println("[COMMAND] $msg")
     }
