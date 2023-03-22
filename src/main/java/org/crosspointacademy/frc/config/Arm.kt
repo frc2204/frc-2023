@@ -9,6 +9,7 @@ object Arm {
 
     const val FIRST_JOINT_SPARK_ID = 13
     const val SECOND_JOINT_SPARK_ID = 14
+    const val OFFSET_AMOUNT = 0.1
 
     val FIRST_JOINT_CONFIG = HomingConfiguration(
         "First Joint",
