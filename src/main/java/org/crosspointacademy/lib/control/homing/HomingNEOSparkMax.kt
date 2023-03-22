@@ -39,7 +39,7 @@ class HomingNEOSparkMax(deviceId: Int, private val homingConfiguration: HomingCo
         }
 
     fun resetEncoder() {
-        sparkMax.encoder.position = 0.0
+        sparkMax.encoder.position = -2.0
     }
 
     fun home(): HomingCommand {
