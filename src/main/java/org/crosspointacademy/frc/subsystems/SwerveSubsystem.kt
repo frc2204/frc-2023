@@ -42,7 +42,7 @@ object SwerveSubsystem : SubsystemBase() {
     private val field = Field2d()
 
     private val gyroAngle get() = adis16470Imu.angle % 360
-    private val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle)
+    private val yaw: Rotation2d get() = Rotation2d.fromDegrees(if (INVERTED_GYRO) 360 - gyroAngle else gyroAngle) // + Rotation2d.fromDegrees(180.0)
 
     private var poseEstimator: SwerveDrivePoseEstimator
 
@@ -125,11 +125,11 @@ object SwerveSubsystem : SubsystemBase() {
         SmartDashboard.putBoolean("Gyro Connected", adis16470Imu.isConnected)
         SmartDashboard.putNumber("Gyro", gyroAngle)
 
-        modules.forEach {
-            SmartDashboard.putNumber("${it.config.name} CANCoder", it.canCoder.degrees)
-            SmartDashboard.putNumber("${it.config.name} Integrated", it.position.angle.degrees)
-            SmartDashboard.putNumber("${it.config.name} Velocity", it.state.speedMetersPerSecond)
-        }
+//        modules.forEach {
+//            SmartDashboard.putNumber("${it.config.name} CANCoder", it.canCoder.degrees)
+//            SmartDashboard.putNumber("${it.config.name} Integrated", it.position.angle.degrees)
+//            SmartDashboard.putNumber("${it.config.name} Velocity", it.state.speedMetersPerSecond)
+//        }
     }
 
 }

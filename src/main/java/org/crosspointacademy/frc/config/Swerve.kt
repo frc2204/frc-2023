@@ -14,23 +14,24 @@ import kotlin.time.Duration.Companion.milliseconds
 
 object Swerve {
 
-    const val DRIVE_POWER = 0.4
-    const val ROTATIONAL_POWER = 0.5
+    const val DRIVE_POWER = 0.95
+    const val ROTATIONAL_POWER = 0.8
+
+    const val DRIVE_BABY_POWER = 0.25
 
     private val WHEEL_RADIUS = Units.inchesToMeters(2.0)
     val WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS
 
-    val FIELD_LENGTH_METERS = 16.54175
-    val FIELD_WIDTH_METERS = 8.0137
+    const val FIELD_LENGTH_METERS = 16.54175
+    const val FIELD_WIDTH_METERS = 8.0137
 
     val MAX_SPEED = Units.feetToMeters(15.13)
-    val MAX_OMEGA: Rotation2d = Rotation2d.fromRadians(6.0)// TODO requires testing
 
     // Auto configuration
-    const val AUTO_MAX_VELOCITY = 0.5
-    const val AUTO_MAX_ACCELERATION = 2.0
-    val AUTO_TRANSLATIONAL_PID = PIDFBuilder(0.1, 0.0, 0.0)
-    val AUTO_ROTATIONAL_PID = PIDFBuilder(0.1, 0.0, 0.0)
+    const val AUTO_MAX_VELOCITY = 2.0
+    const val AUTO_MAX_ACCELERATION = 1.5
+    val AUTO_TRANSLATIONAL_PID = PIDFBuilder(2.0, 0.0, 0.0)
+    val AUTO_ROTATIONAL_PID = PIDFBuilder(1.3, 0.0, 0.01)
 
     const val INVERTED_GYRO = false
     const val INVERTED_ENCODERS = false
@@ -73,6 +74,8 @@ object Swerve {
      * The wheelbase is the distance between the front and back wheels on the same side of the robot.
      */
     private val WHEEL_BASE = Units.inchesToMeters(23.25)
+
+    val MAX_OMEGA: Rotation2d = Rotation2d.fromRotations(1.0)
 
     private val FRONT_LEFT_LOCATION = Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2)
     private val FRONT_RIGHT_LOCATION = Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2)

@@ -8,7 +8,7 @@ object Arm {
 
     const val FIRST_JOINT_SPARK_ID = 13
     const val SECOND_JOINT_SPARK_ID = 14
-    const val OFFSET_AMOUNT = 0.1
+    const val OFFSET_AMOUNT = 0.3
 
     val FIRST_JOINT_CONFIG = HomingConfiguration(
         "First Joint",
@@ -36,11 +36,11 @@ object Arm {
     ) {
 
         FLOOR_TIPPED(21.0, 50.0),
-        FLOOR(-2.0, 37.0),
+        FLOOR(-2.0, 38.0),
         HOME(0.0, 0.0),
-        FIRST_NODE(0.0, 34.0),
-        SECOND_NODE(19.0, 9.4),
-        THIRD_NODE(29.0, -3.0),
+        FIRST_NODE(0.0, 36.0),
+        SECOND_NODE(19.0, 7.4),
+        THIRD_NODE(29.0, 4.0),
 
     }
 

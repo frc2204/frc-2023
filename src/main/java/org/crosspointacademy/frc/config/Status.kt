@@ -9,7 +9,7 @@ enum class Status(val pattern: BlinkinPattern) {
     CLAW_OPEN(BlinkinPattern.STROBE_RED),
     CLAW_CLOSE(BlinkinPattern.GREEN),
 
-    DRIVE(BlinkinPattern.SINE_RAINBOW),
+    DRIVE(BlinkinPattern.BPM_RAINBOW),
 
 
 

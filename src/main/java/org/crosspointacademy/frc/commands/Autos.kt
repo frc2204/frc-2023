@@ -18,7 +18,6 @@ import org.crosspointacademy.frc.subsystems.SwerveSubsystem
 
 object Autos {
 
-
     val autoModeChooser = SendableChooser<AutoMode>().apply {
         AutoMode.values().forEach { addOption(it.optionName, it) }
         setDefaultOption(AutoMode.DEFAULT.optionName, AutoMode.DEFAULT)
@@ -30,19 +29,17 @@ object Autos {
 
     enum class AutoMode(val optionName: String, val pathName: String) {
         DEFAULT("Default", "Default Path"),
-        BALANCE_PATH("Balance Path", "Balance Path"),
-        RIGHT_PATH("Right Path", "Right Path"),
     }
 
     object AutoEvents {
 
         val PLACE_THIRD_NODE = SequentialCommandGroup(
             CloseClaw(),
-            PositionArm(Arm.Positions.THIRD_NODE, 1.0, 1.0),
+            PositionArm(Arm.Positions.THIRD_NODE, 4.6, 4.6).withTimeout(4.0),
             WaitCommand(2.0),
             OpenClaw(),
             WaitCommand(1.0),
-            PositionArm(Arm.Positions.HOME, 1.0, 1.0),
+            PositionArm(Arm.Positions.HOME, 1.4, 1.4),
             CloseClaw(),
         )
 
