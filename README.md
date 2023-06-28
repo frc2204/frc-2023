@@ -2,7 +2,7 @@
 [![CI](https://github.com/FRC2204-Rambots/frc-2023/actions/workflows/main.yml/badge.svg)](https://github.com/FRC2204-Rambots/frc-2023/actions/workflows/main.yml)
 
 This is the code for the 2023 season of the FIRST Robotics Competition.
-It is written in Kotlin with Java interoperability and uses the WPILib library.
+It is written in Kotlin with Java interoperability and uses the WPILib library. This project requires Kotlin 1.8+, Kotlin Serialization 1.8+, GradleRIO 2023.4.1+
 
 # Robot Features
 ## Drivetrain
@@ -12,7 +12,7 @@ Each module is controlled with 2 Talon 500 motors along with a CTRE Mag Encoder 
 ## Arm
 The arm this year consists of two joints, each powered by a NEO.
 
-## Requirements
+# Requirements
 In order to build and deploy the code, you must have the WPILib toolchain installed. You can find instructions for 
 installing the toolchain [here](https://docs.wpilib.org/en/latest/docs/zero-to-robot/step-2/wpilib-setup.html).
 
